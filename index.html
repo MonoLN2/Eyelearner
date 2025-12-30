@@ -264,24 +264,21 @@
             });
 
             // Exercise 4: Reading/Story
-            if (lIdx === 4 || lIdx === 9) {
+            if (lIdx === 4) {
                 exercises.push({ type:'story_read', story: u.story });
                 const spk = u.story.chat[0].s.toUpperCase();
                 exercises.push({ type:'cloze', en:`WHO SPOKE FIRST?`, target: spk, opts:[spk, "KING", "VOID"] });
             } else {
-                const s = u.sentences[lIdx % u.sentences.length];
-                exercises.push({ 
-                    type:'sentence', 
-                    en: s, 
-                    target: s, 
-                    bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
-                });
-            }
-
-            // Fill remaining to reach 10
-            while(exercises.length < 10) {
-                const v = u.vocab[Math.floor(Math.random()*u.vocab.length)];
-                exercises.push({ type:'vocab', word:v.w, d:v.d, p:scramble(v.w) });
+                //Fill in the rest wiht sentence builder exercises
+                for (let i = 0; i < 6; i++) {
+                    const s = u.sentences[lIdx % u.sentences.length];
+                    
+                    exercises.push({ 
+                        type:'sentence', 
+                        en: s, 
+                        target: s, 
+                        bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
+                    });
             }
 
             state.session = { exercises, index: 0, feedback: null, uId, lIdx, selection: [] };
