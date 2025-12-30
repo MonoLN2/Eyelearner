@@ -1,0 +1,10 @@
+MIT License
+
+Copyright (c) 2025 MonoLN2
+
+Permission is hereby granted, for viewing and personal use of the Eyean Master Lab application.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Strict Prohibition:
+Redistribution, reselling, or mirroring of this source code, the Eyean linguistic system, or the narrative content (Stories and Characters) for commercial purposes is strictly prohibited without express written consent from the copyright holder.
