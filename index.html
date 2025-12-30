@@ -66,14 +66,14 @@
 
         const ATLAS = {
             1: { title: "Make Introductions", icon: "user", 
-                 vocab: [{w:'HELLO',d:'Greeting'},{w:'NAME',d:'Identity'},{w:'FRIEND',d:'Ally'},{w:'AM',d:'Be(1st)'},{w:'ARE',d:'Be(2nd)'},{w:'KIND',d:'Nice'},{w:'GOOD',d:'Safe'},{w:'THANKS',d:'Thanks'}, {w: 'THIS',d: 'This'}, {w: 'GOODBYE',d: 'Goodbye'}, {w:'NICE',d:'Pleasant'},{w: 'MEET',d: 'Encounter'},{w:'NEW',d:'New'},{w:'HE',d:'Male pronoun'},{w:'SHE',d:'Female pronoun'},{w:'MOM',d:'Mother'},{w:'DAD',d:'FATHER'}],
-                 sentences: ["I AM ELIAS.", "YOU ARE SARAH.", "SARAH IS MY FRIEND.", "HELLO, MY NAME IS ELIAS.", "WELCOME, THIS IS SARAH.", "THANK YOU, ELIAS.", "WELCOME, ELIAS.", "HELLO, I AM ELIAS AND THIS IS MY FRIEND SARAH.", "NICE TO MEET YOU.", "HELLO, NICE TO MEET YOU!", "YOU ARE MY NEW FRIEND.", "SHE IS MY NEW FRIEND.", "THIS IS MY DAD.", "DAD, THIS IS MY NEW FRIEND SARAH.", "HELLO, DAD!", "HELLO, MOM!", "THANK YOU, MOM!", "MOM, THIS IS MY NEW FRIEND ELIAS."],
+                 vocab: [{w:'HELLO',d:'Greeting'},{w:'NAME',d:'Identity'},{w:'FRIEND',d:'Ally'},{w:'AM',d:'Be(1st)'},{w:'ARE',d:'Be(2nd)'},{w:'KIND',d:'Nice'},{w:'GOOD',d:'Safe'},{w:'THANKS',d:'Thanks'}, {w: 'THIS',d: 'This'}, {w: 'GOODBYE',d: 'Goodbye'}, {w:'NICE',d:'Pleasant'},{w: 'MEET',d: 'Encounter'},{w:'NEW',d:'New'},{w:'HE',d:'Male pronoun'},{w:'SHE',d:'Female pronoun'},{w:'MOM',d:'Mother'},{w:'DAD',d:'FATHER'},{w:'OKAY',d:'Fine'}],
+                 sentences: ["I AM ELIAS.", "YOU ARE SARAH.", "SARAH IS MY FRIEND.", "HELLO, MY NAME IS ELIAS.", "WELCOME, THIS IS SARAH.", "THANK YOU, ELIAS.", "WELCOME, ELIAS.", "HELLO, I AM ELIAS AND THIS IS MY FRIEND SARAH.", "NICE TO MEET YOU.", "HELLO, NICE TO MEET YOU!", "YOU ARE MY NEW FRIEND.", "SHE IS MY NEW FRIEND.", "THIS IS MY DAD.", "DAD, THIS IS MY NEW FRIEND SARAH.", "HELLO, DAD!", "HELLO, MOM!", "THANK YOU, MOM!", "MOM, THIS IS MY NEW FRIEND ELIAS.", "OKAY!"],
                  story: { title: "The new friendship", chat: [
-                     {s:"Elias",l:"HELLO, I AM ELIAS"},
-                     {s:"Sarah",l:"HELLO ELIAS, I AM SARAH"},
-                     {s:"Elias",l:"YOU ARE MY NEW FRIEND"},
-                     {s:"Sarah",l:"YES, NICE TO MEET YOU"},
-                     {s:"Elias",l:"GOODBYE"}
+                     {s:"Elias",l:"HELLO, I AM ELIAS."},
+                     {s:"Sarah",l:"HELLO ELIAS, I AM SARAH."},
+                     {s:"Elias",l:"YOU ARE MY NEW FRIEND."},
+                     {s:"Sarah",l:"YES, NICE TO MEET YOU."},
+                     {s:"Elias",l:"GOODBYE."}
                  ] }
             },
             2: { title: "Motion", icon: "activity", 
@@ -117,7 +117,7 @@
                      {s:"Citizen 2",l:"YES, I THINK IT WAS A GOOD IDEA."},
                      {s:"Citizen 1",l:"I HOPE WE WILL STAY PEACEFUL."},
                      {s:"Citizen 2",l:"THE KING SAYS THE WAR IS ALMOST OVER."},
-                     {s:"Citizen 1",l:"I THINK HE IS RIGHT"}
+                     {s:"Citizen 1",l:"I THINK HE IS RIGHT."}
                  ] }
             },
             6: { title: "CHECKPOINT 1", icon: "scroll", 
@@ -141,25 +141,25 @@
                  ] }
             },
             7: { title: "Weather", icon: "waves", 
-                 vocab: [{w:'PILOT',d:'Flyer'},{w:'TOWER',d:'Base'},{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'SIGNAL',d:'Comm'},{w:'FLY',d:'Fly'},{w:'LAND',d:'Land'},{w:'SAFE',d:'Safe'}],
-                 sentences: ["PILOT SEES THE RAIN", "STORM IS NEAR", "SIGNAL IS GOOD", "GO TO THE TOWER"],
-                 story: { title: "Radio Check", chat: [
-                     {s:"Pilot",l:"TOWER THE STORM IS NEAR"},
-                     {s:"Tower",l:"GO LOW PILOT STAY SAFE"},
-                     {s:"Pilot",l:"I SEE THE RAIN NOW"},
-                     {s:"Tower",l:"THE SIGNAL IS GOOD"},
-                     {s:"Pilot",l:"I LAND AT THE CITY"}
+                 vocab: [{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'COLD',d:'Cold'},{w:'SUNNY',d:'Sunny'},{w:'RAINY',d:'Rainy'},{w:'TODAY',d:'This day'},{w:'TOMORROW',d:'Next day'},{w:'YESTERDAY',d:'Previous Day'},{w:'TEMPURATURE',d:'Temperature'},{w:'FAHRENHEIT',d:'Temperature scale'},{w:'CELSIUS',d:'Temperature scale'}],
+                 sentences: ["IT IS RAINY TODAY.", "IT WILL BE RAINY ON MONDAY.", "IT IS SUNNY HERE.", "THERE IS A LOT OF SNOW.", "IT IS VERY HOT TODAY.", "IT WILL BE HOT TOMORROW.", "IT WAS HOT AND SUNNY YESTERDAY.", "WILL IT RAIN TOMORROW?", "MOM, IT IS TOO RAINY TODAY.","HOW HOT IS IT TODAY?", "HOW HOT WILL IT BE TOMORROW?", "WHAT'S THE TEMPERATURE?", "IT IS FORTY-FIVE DEGREES FAHRENHEIT.","IT IS FIFTEEN DEGREES CELSIUS."],
+                 story: { title: "Weather Talk", chat: [
+                     {s:"Oscar",l:"IT IS COLD TODAY."},
+                     {s:"Mary",l:"YES, IT IS ONLY FIVE DEGREES CELSIUS."},
+                     {s:"Oscar",l:"WILL IT RAIN TODAY?"},
+                     {s:"Mary",l:"NO, BUT IT WILL ON THURSDAY."},
+                     {s:"Oscar",l:"OKAY, GOODBYE."}
                  ] }
             },
             8: { title: "Trade", icon: "coins", 
-                 vocab: [{w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Coin'},{w:'COST',d:'Value'},{w:'PAY',d:'Give'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'}],
-                 sentences: ["FOOD COSTS TEN BOIR", "I PAY ONE BOIR", "BUY THE GOLD", "MERCHANT SELLS FOOD"],
+                 vocab: [{w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Eyean Currency'},{w:'COST',d:'Value'},{w:'PAY',d:'Give money'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'},{w:'TWO',d:'2'},{w:'THREE',d:'3'},{w:'FOUR',d:'4'},{w:'FIVE',d:'5'},{w:'SIX',d:'6'},{w:'SEVEN',d:'7'},{w:'EIGHT',d:'8'},{w:'NINE',d:'9'},{w:'ITEM',d:'Item'}],
+                 sentences: ["THIS FOOD COSTS TEN BOIR.", "HOW MUCH DOES THIS COST?", "BUY THAT IF YOU WANT.", "LOOK AT WHAT THE MERCHANT'S SELLING!", "THIS COSTS TWO BOIR.", "THIS COSTS THREE BOIR.", "THIS ITEM COSTS THREE BOIR.", "THIS ITEM COSTS FOUR BOIR.", "THIS COSTS FIVE BOIR.", "THIS COSTS SIX BOIR.", "THIS IS SEVEN BOIR.", "PAY FOR THE FOOD, PLEASE.","PAY THE MERCHANT NINE BOIR."],
                  story: { title: "Market Talk", chat: [
-                     {s:"Merchant",l:"THE FOOD IS TEN BOIR"},
-                     {s:"Buyer",l:"I PAY ONE BOIR ONLY"},
-                     {s:"Merchant",l:"NO I SELL FOR TEN"},
-                     {s:"Buyer",l:"I BUY THE GOLD BAG"},
-                     {s:"Merchant",l:"GOOD I TAKE THE PAY"}
+                     {s:"Merchant",l:"THE FOOD IS TEN BOIR."},
+                     {s:"Buyer",l:"I WILL ONLY PAY ONE BOIR."},
+                     {s:"Merchant",l:"NO, I'M SELLING IT FOR TEN."},
+                     {s:"Buyer",l:"OKAY, FINE. HERE IS TEN BOIR."},
+                     {s:"Merchant",l:"GOOD, I'LL TAKE THE PAY. THANK YOU."}
                  ] }
             },
             9: { title: "Navigation", icon: "compass", 
@@ -269,6 +269,12 @@
                 const sIndex = (lIdx + i) % u.sentences.length;
                 const s = u.sentences[sIndex];
         
+                // 2. Multiple Sentence Builders (Exercises 5, 6, and 7)
+            for (let i = 0; i < 3; i++) {
+                // This picks a completely random sentence from the unit's list
+                const sIndex = Math.floor(Math.random() * u.sentences.length);
+                const s = u.sentences[sIndex];
+
                 exercises.push({ 
                     type:'sentence', 
                     en: s, 
@@ -276,7 +282,6 @@
                     bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
                 });
             }
-
             // 3. Story or Cloze (Exercise 8)
             if (lIdx === 4 || lIdx === 9) {
                 exercises.push({ type:'story_read', story: u.story });
@@ -527,19 +532,28 @@
                         <p class="text-xs text-slate-400">Eyean is a phonetic cipher. Capitalization is maintained for proper nouns. Punctuation is ignored in the current version of the Lab.</p>
                     </div>
                 </div>`;
-            } else if (state.view === 'codex') {
+            else if (state.view === 'codex') {
                 let allVocab = [];
-                Object.values(ATLAS).forEach(u => allVocab = [...allVocab, ...u.vocab]);
+                // Filter out Units 6 (Checkpoint) and 12 (Final Review)
+                Object.keys(ATLAS)
+                    .filter(uId => uId !== "6" && uId !== "12")
+                    .forEach(uId => {
+                        allVocab = [...allVocab, ...ATLAS[uId].vocab];
+                    });
+
                 container.innerHTML = `
                 <div class="animate-in space-y-8 pt-4">
-                    <h2 class="text-4xl font-black uppercase italic">The Codex</h2>
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-4xl font-black uppercase italic">The Codex</h2>
+                        <p class="text-slate-500 text-sm font-medium italic">Authorized entries only. Checkpoint and Final data encrypted.</p>
+                    </div>
                     <div class="grid grid-cols-1 gap-3">
                         ${allVocab.map(v => `
                             <div class="flex items-center justify-between p-5 bg-slate-900 border border-white/5 rounded-2xl">
                                 <div>
                                     <div class="eyean-font text-2xl text-sky-400 leading-none mb-1">${scriptify(v.w, state.script)}</div>
                                     <div class="text-xs font-black uppercase tracking-widest text-slate-600">${scramble(v.w)}</div>
-                                </div>
+                                    </div>
                                 <div class="text-right">
                                     <div class="font-black uppercase text-white">${v.w}</div>
                                     <div class="text-[10px] italic text-slate-500">${v.d}</div>
