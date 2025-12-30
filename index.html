@@ -44,8 +44,7 @@
     </header>
 
     <main id="app-content" class="flex-1 max-w-xl mx-auto w-full p-6 relative pb-32">
-        <!-- Views injected here -->
-    </main>
+        </main>
 
     <nav id="footer-nav" class="fixed bottom-0 left-0 right-0 bg-[#050608]/95 backdrop-blur-xl border-t border-white/5 px-6 py-4 flex justify-around items-center z-[90] pb-8">
         <button onclick="setView('path')" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
@@ -111,7 +110,7 @@
             },
             5: { title: "Politics", icon: "shield", 
                  vocab: [{w:'JUDGE',d:'Official'},{w:'KING',d:'Ruler'},{w:'QUEEN',d:'Ruler'},{w:'LAW',d:'Rules'},{w:'VOTE',d:'Choice'},{w:'PEACE',d:'Calm'},{w:'WAR',d:'Fight'},{w:'GUARD',d:'Protect'},{w:'CITIZEN',d:'Person'},{w:'TRUTH',d:'Fact'},{w:'RIGHT',d:'Correct'},{w:'POWER',d:'STRENGTH'},{w:'POLITICS',d:'Politics'},{w:'IDEA',d:'Idea'},{w:'THINK',d:'Think'}],
-                 sentences: ["THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN MAKE THE LAWS."],
+                 sentences: ["THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN make THE LAWS."],
                  story: { title: "TAlking about politics", chat: [
                      {s:"Citizen 1",l:"DID YOU SEE THE NEW LAW?"},
                      {s:"Citizen 2",l:"YES, I THINK IT WAS A GOOD IDEA."},
@@ -130,7 +129,7 @@
                             "KAEL RUNS FAST.", "MIRA WALKS SLOW.", "STOP JUMPING.", "MY BODY IS STRONG.", "HELLO MIRA, DO YOU LIKE TO WALK?", "KAEL RUNS EVERY DAY.", "MIRA LIKES TO WALK.", "KAEL IS WALKING TO THE CITY.", "COOL, I LIKE WALKING, TOO.", "KAEL IS VERY STRONG.", "DO YOU HIKE OFTEN?", "I LIKE HIKING", "KAEL HIKES EVERY WEEK.", "I RUN EVERY SUNDAY.", "MIRA WALKS EVERY MONDAY AND HIKES EVERY FRIDAY.", "MY MOM LIKES TO WALK", "MY DAD HIKES EVERY WEDNESDAY.",
                             "THE SUN IS BRIGHT", "GAIA SEES THE TREE", "THE RIVER IS THERE", "THE SKY IS BLUE.", "THERE ARE MANY FLOWERS.", "THAT BIRD IS BIG!", "THE FLOWERS ARE PRETTY.", "MY MOM LIKES FLOWERS.", "MY DAD LIKES BIRDS.", "THE FLOWERS ARE MANY DIFFERENT COLORS.",
                             "THE CLERK BUILDS A TOOL", "I WORK AT THE OFFICE", "MY WORK IS IMPORTANT", "MY WAGE IS HIGH", "WHAT IS YOUR JOB?", "MY JOB IS BUILDING TOOLS.", "ARE YOU A DOCTOR?", "YES, I AM A DOCTOR.", "NO, I AM A TEACHER.", "I AM NOT A TEACHER, I AM A WAITER.", "BORIS IS MY TEACHER.", "HELLO, ARE YOU MY TEACHER?", "SHE IS MY NEW TEACHER.",
-                            "THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN MAKE THE LAWS.", "CURIOSITY IS GOOD."],
+                            "THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN make THE LAWS.", "CURIOSITY IS GOOD."],
                  story: { title: "CHECKPOINT 1", chat: [
                      {s:"Boris",l:"HELLO, MY NAME IS BORIS. I LIKE TO RUN EVERY SUNDAY."},
                      {s:"Hilda",l:"COOL. I LIKE FLOWERS BECAUSE THEY ARE VERY COLORFUL."},
@@ -263,18 +262,11 @@
             });
 
             // 2. Multiple Sentence Builders (Exercises 5, 6, and 7)
-            // We loop 3 times to add 3 different sentences from the ATLAS
+            // Picks random sentences from the ATLAS
             for (let i = 0; i < 3; i++) {
-                // This picks different sentences based on the lesson index and loop index
-                const sIndex = (lIdx + i) % u.sentences.length;
-                const s = u.sentences[sIndex];
-        
-                // 2. Multiple Sentence Builders (Exercises 5, 6, and 7)
-            for (let i = 0; i < 3; i++) {
-                // This picks a completely random sentence from the unit's list
                 const sIndex = Math.floor(Math.random() * u.sentences.length);
                 const s = u.sentences[sIndex];
-
+        
                 exercises.push({ 
                     type:'sentence', 
                     en: s, 
@@ -282,6 +274,7 @@
                     bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
                 });
             }
+
             // 3. Story or Cloze (Exercise 8)
             if (lIdx === 4 || lIdx === 9) {
                 exercises.push({ type:'story_read', story: u.story });
@@ -300,11 +293,10 @@
 
         function handleWordClick(word) {
             const s = state.session;
-            // Don't allow clicking if we are showing "Correct/Wrong" feedback
             if (s.feedback) return; 
     
             s.selection.push(word);
-            render(); // Redraw the screen to show the word in the selection box
+            render();
         }
 
         function clearSelection() {
@@ -318,11 +310,10 @@
             const cur = s.exercises[s.index];
 
             if (s.feedback) {
-                // Move to the next exercise
                 if (s.index < s.exercises.length - 1) {
                     s.index++;
                     s.feedback = null;
-                    s.selection = []; // CRITICAL: Reset the builder for the next sentence
+                    s.selection = [];
                     render();
                 } else {
                     finishLesson();
@@ -330,18 +321,16 @@
                 return;
             }
 
-    // Logic for checking the answer
-    if (cur.type === 'vocab' || cur.type === 'story_read') {
-        s.feedback = 'correct';
-    } else if (cur.type === 'sentence') {
-        const ans = s.selection.join(' ');
-        // We trim and use uppercase to ensure small typos don't break it
-        s.feedback = ans.trim() === cur.target.trim() ? 'correct' : 'wrong';
-    } else if (cur.type === 'cloze') {
-        s.feedback = s.selection[0] === cur.target ? 'correct' : 'wrong';
-    }
-    render();
-}
+            if (cur.type === 'vocab' || cur.type === 'story_read') {
+                s.feedback = 'correct';
+            } else if (cur.type === 'sentence') {
+                const ans = s.selection.join(' ');
+                s.feedback = ans.trim() === cur.target.trim() ? 'correct' : 'wrong';
+            } else if (cur.type === 'cloze') {
+                s.feedback = s.selection[0] === cur.target ? 'correct' : 'wrong';
+            }
+            render();
+        }
 
         function finishLesson() {
             state.xp += 50; 
@@ -369,7 +358,6 @@
             document.getElementById('xp-val').innerText = state.xp;
             nav.classList.toggle('hidden', state.view === 'lesson');
             
-            // Nav Highlighting
             ['path', 'translator', 'codex'].forEach(id => {
                 const el = document.getElementById('nav-' + id);
                 if (el) {
@@ -532,9 +520,8 @@
                         <p class="text-xs text-slate-400">Eyean is a phonetic cipher. Capitalization is maintained for proper nouns. Punctuation is ignored in the current version of the Lab.</p>
                     </div>
                 </div>`;
-            else if (state.view === 'codex') {
+            } else if (state.view === 'codex') {
                 let allVocab = [];
-                // Filter out Units 6 (Checkpoint) and 12 (Final Review)
                 Object.keys(ATLAS)
                     .filter(uId => uId !== "6" && uId !== "12")
                     .forEach(uId => {
@@ -553,7 +540,7 @@
                                 <div>
                                     <div class="eyean-font text-2xl text-sky-400 leading-none mb-1">${scriptify(v.w, state.script)}</div>
                                     <div class="text-xs font-black uppercase tracking-widest text-slate-600">${scramble(v.w)}</div>
-                                    </div>
+                                </div>
                                 <div class="text-right">
                                     <div class="font-black uppercase text-white">${v.w}</div>
                                     <div class="text-[10px] italic text-slate-500">${v.d}</div>
