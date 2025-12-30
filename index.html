@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eyelearner (v1.2.0)</title>
+    <title>Eyelearner (v1.3.1)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -255,41 +255,41 @@
             if (isLessonLocked(uId, lIdx)) return;
             const u = ATLAS[uId];
             let exercises = [];
-            
-            // Generate a mix of 10 exercises for this session
-            // Exercises 0-3: Vocab intro
+    
+            // 1. Vocab Intro (First 4 exercises)
             const offset = (lIdx % 2) * 4;
             u.vocab.slice(offset, offset + 4).forEach(v => {
                 exercises.push({ type:'vocab', word:v.w, d:v.d, p:scramble(v.w) });
             });
 
-            // Exercise 4: Reading/Story
-            if (lIdx === 4) {
+            // 2. Multiple Sentence Builders (Exercises 5, 6, and 7)
+            // We loop 3 times to add 3 different sentences from your library
+            for (let i = 0; i < 3; i++) {
+                // This picks different sentences based on the lesson index and loop index
+                const sIndex = (lIdx + i) % u.sentences.length;
+                const s = u.sentences[sIndex];
+        
+                exercises.push({ 
+                    type:'sentence', 
+                    en: s, 
+                    target: s, 
+                    bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
+                });
+            }
+
+            // 3. Story or Cloze (Exercise 8)
+            if (lIdx === 4 || lIdx === 9) {
                 exercises.push({ type:'story_read', story: u.story });
-                const spk = u.story.chat[0].s.toUpperCase();
-                exercises.push({ type:'cloze', en:`WHO SPOKE FIRST?`, target: spk, opts:[spk, "KING", "VOID"] });
-            } else {
-                //Fill in the rest wiht sentence builder exercises
-                for (let i = 0; i < 6; i++) {
-                    const s = u.sentences[lIdx % u.sentences.length];
-                    
-                    exercises.push({ 
-                        type:'sentence', 
-                        en: s, 
-                        target: s, 
-                        bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
-                    });
+            }
+
+            // 4. Fill remaining slots with random vocab to reach a total of 10
+            while(exercises.length < 10) {
+                const v = u.vocab[Math.floor(Math.random() * u.vocab.length)];
+                exercises.push({ type:'vocab', word:v.w, d:v.d, p:scramble(v.w) });
             }
 
             state.session = { exercises, index: 0, feedback: null, uId, lIdx, selection: [] };
             state.view = 'lesson';
-            render();
-        }
-
-        function handleWordClick(word) {
-            const s = state.session;
-            if (s.feedback) return;
-            s.selection.push(word);
             render();
         }
 
