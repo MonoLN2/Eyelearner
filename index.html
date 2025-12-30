@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eyelearner (v1.4.0)</title>
+    <title>Eyelearner (v1.4.5)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -211,7 +211,7 @@
             view: 'path',
             xp: parseInt(localStorage.getItem('eyean-xp') || 0),
             completed: JSON.parse(localStorage.getItem('eyean-lessons') || '{}'),
-            script: 1, // 1 for WEST, 2 for EAST
+            script: 1, 
             session: null,
             finished: false,
             uFinished: false,
@@ -264,8 +264,7 @@
                 const sIndex = Math.floor(Math.random() * u.sentences.length);
                 const s = u.sentences[sIndex];
                 
-                // Get 3-6 random distractor words from ATLAS vocab
-                const distractorCount = Math.floor(Math.random() * 4) + 3; // 3 to 6
+                const distractorCount = Math.floor(Math.random() * 4) + 3; 
                 const distractors = [];
                 const allVocab = u.vocab.map(v => v.w);
                 while(distractors.length < distractorCount) {
@@ -302,10 +301,8 @@
             if (s.feedback) return; 
 
             if (bankIndex !== -1) {
-                // Moving word from Bank to Selection
                 s.selection.push(word);
             } else {
-                // Moving word from Selection back to Bank
                 const index = s.selection.indexOf(word);
                 if (index > -1) {
                     s.selection.splice(index, 1);
@@ -442,8 +439,6 @@
                         </div>
                     `;
                 } else if (cur.type === 'sentence') {
-                    // Filter the bank to only show words NOT currently in selection
-                    // We map the bank to keep track of counts for duplicate words in sentences
                     const currentSelection = [...s.selection];
                     const visibleBank = cur.bank.filter(word => {
                         const selectIdx = currentSelection.indexOf(word);
@@ -521,16 +516,25 @@
                         <textarea oninput="state.transIn = this.value; renderTrans();" placeholder="ENTER TRANSMISSION..." class="w-full bg-slate-900 border border-white/10 rounded-[2rem] p-6 h-32 focus:border-sky-500/50 outline-none transition-all text-xl font-bold uppercase"></textarea>
                     </div>
 
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-sky-500 tracking-widest px-1">Output: Eyean Script</label>
-                        <div id="trans-out" class="bg-sky-500/5 border-2 border-sky-500/20 rounded-[2.5rem] p-8 min-h-[12rem] flex items-center justify-center text-center">
-                            <div id="trans-text" class="eyean-font text-4xl break-words text-sky-400 leading-relaxed"></div>
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase text-sky-500 tracking-widest px-1">Output: Eyean Script</label>
+                            <div class="bg-sky-500/5 border-2 border-sky-500/20 rounded-[2.5rem] p-8 min-h-[8rem] flex items-center justify-center text-center">
+                                <div id="trans-text" class="eyean-font text-4xl break-words text-sky-400 leading-relaxed"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase text-amber-500 tracking-widest px-1">Spoken: Pronunciation</label>
+                            <div class="bg-amber-500/5 border-2 border-amber-500/20 rounded-[2rem] p-6 min-h-[4rem] flex items-center justify-center text-center">
+                                <div id="trans-spoken" class="text-xl font-black uppercase tracking-widest text-amber-500 break-words"></div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="p-6 bg-slate-900/50 rounded-3xl border border-white/5 text-center">
                         <p class="text-[10px] font-black text-slate-600 uppercase mb-2">Translation Protocol</p>
-                        <p class="text-xs text-slate-400">Eyean is a phonetic cipher. Capitalization is maintained for proper nouns. Punctuation is ignored in the current version of the Lab.</p>
+                        <p class="text-xs text-slate-400">Eyean is a phonetic cipher. Pronunciation updates in real-time below the script output.</p>
                     </div>
                 </div>`;
             } else if (state.view === 'codex') {
@@ -568,8 +572,10 @@
         }
 
         function renderTrans() {
-            const out = document.getElementById('trans-text');
-            if(out) out.innerText = state.transIn.toUpperCase().split(' ').map(w => scriptify(w, state.script)).join(' ');
+            const outText = document.getElementById('trans-text');
+            const outSpoken = document.getElementById('trans-spoken');
+            if(outText) outText.innerText = state.transIn.toUpperCase().split(' ').map(w => scriptify(w, state.script)).join(' ');
+            if(outSpoken) outSpoken.innerText = state.transIn.toUpperCase().split(' ').map(w => scramble(w)).join(' ');
         }
 
         window.onload = () => { render(); };
