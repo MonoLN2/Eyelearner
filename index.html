@@ -65,7 +65,7 @@
         const SPOKEN = { 'A': 'A', 'B': 'V', 'C': 'ZH', 'D': 'G', 'E': 'E', 'F': 'Z', 'G': 'D', 'H': 'H', 'I': 'I', 'J': 'B', 'K': 'S', 'L': 'F', 'M': 'T', 'N': 'P', 'O': 'O', 'P': 'R', 'Q': 'Q', 'R': 'L', 'S': 'K', 'T': 'M', 'U': 'U', 'V': 'C', 'W': 'N', 'X': 'X', 'Y': 'Y', 'Z': 'Z' };
 
         const ATLAS = {
-            1: { title: "Identity", icon: "user", 
+            1: { title: "Make Introductions", icon: "user", 
                  vocab: [{w:'HELLO',d:'Greeting'},{w:'NAME',d:'Identity'},{w:'ELIAS',d:'Proper'},{w:'SARAH',d:'Proper'},{w:'FRIEND',d:'Ally'},{w:'AM',d:'Be(1st)'},{w:'ARE',d:'Be(2nd)'},{w:'KIND',d:'Nice'},{w:'GOOD',d:'Safe'},{w:'THANKS',d:'Thanks'}],
                  sentences: ["I AM ELIAS", "YOU ARE SARAH", "SARAH IS MY FRIEND", "HELLO MY NAME IS ELIAS"],
                  story: { title: "The Border Gate", chat: [
@@ -87,7 +87,7 @@
                      {s:"Kael",l:"I WALK SLOW TO THE CITY"}
                  ] }
             },
-            3: { title: "Gaia", icon: "sun", 
+            3: { title: "Nature", icon: "sun", 
                  vocab: [{w:'TREE',d:'Plant'},{w:'RIVER',d:'Water'},{w:'SUN',d:'Star'},{w:'SKY',d:'Above'},{w:'DARK',d:'Dim'},{w:'ORION',d:'Proper'},{w:'GAIA',d:'Proper'},{w:'GREEN',d:'Nature'},{w:'EARTH',d:'Ground'},{w:'LIGHT',d:'Light'}],
                  sentences: ["THE SUN IS BRIGHT", "GAIA SEES THE TREE", "THE RIVER IS GREEN", "SKY IS BLUE"],
                  story: { title: "Forest Survey", chat: [
@@ -98,7 +98,7 @@
                      {s:"Orion",l:"GREEN IS GOOD FOR TREE"}
                  ] }
             },
-            4: { title: "Labor", icon: "briefcase", 
+            4: { title: "Work & Job", icon: "briefcase", 
                  vocab: [{w:'BOSS',d:'Lead'},{w:'CLERK',d:'Worker'},{w:'OFFICE',d:'Room'},{w:'TOOL',d:'Item'},{w:'BUILD',d:'Create'},{w:'JOB',d:'Task'},{w:'WAGE',d:'Pay'},{w:'DESK',d:'Surface'},{w:'PAPER',d:'Sheet'},{w:'PEN',d:'Writer'}],
                  sentences: ["THE BOSS BUILDS A TOOL", "I WORK AT THE OFFICE", "THE JOB IS BUSY", "I WANT THE WAGE"],
                  story: { title: "Office Day", chat: [
@@ -109,7 +109,7 @@
                      {s:"Supervisor",l:"YOU EARN THE GOOD WAGE"}
                  ] }
             },
-            5: { title: "Justice", icon: "shield", 
+            5: { title: "Law", icon: "shield", 
                  vocab: [{w:'JUDGE',d:'Official'},{w:'KING',d:'Ruler'},{w:'LAW',d:'Rules'},{w:'VOTE',d:'Choice'},{w:'PEACE',d:'Calm'},{w:'WAR',d:'Fight'},{w:'GUARD',d:'Protect'},{w:'CITIZEN',d:'Person'},{w:'TRUTH',d:'Fact'},{w:'RIGHT',d:'Correct'}],
                  sentences: ["THE KING RULES LAND", "THE LAW IS REAL", "VOTE FOR PEACE", "JUSTICE IS TRUTH"],
                  story: { title: "High Decree", chat: [
@@ -120,7 +120,7 @@
                      {s:"Judge",l:"HONOR THE LAW ALWAYS"}
                  ] }
             },
-            6: { title: "Education", icon: "scroll", 
+            6: { title: "Review #1", icon: "scroll", 
                  vocab: [{w:'MENTOR',d:'Teacher'},{w:'SEEKER',d:'Student'},{w:'DREAM',d:'Vision'},{w:'MAGIC',d:'Energy'},{w:'CORE',d:'Center'},{w:'VOID',d:'Empty'},{w:'KNOW',d:'Understand'},{w:'MIND',d:'Mind'},{w:'REAL',d:'Exist'},{w:'OPEN',d:'Open'}],
                  sentences: ["I KNOW THE CORE", "THE DREAM IS REAL", "OPEN THE MIND", "MAGIC IS CORE"],
                  story: { title: "Lesson One", chat: [
@@ -131,7 +131,7 @@
                      {s:"Mentor",l:"YOU ARE A GOOD SEEKER"}
                  ] }
             },
-            7: { title: "Signals", icon: "waves", 
+            7: { title: "Weather", icon: "waves", 
                  vocab: [{w:'PILOT',d:'Flyer'},{w:'TOWER',d:'Base'},{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'SIGNAL',d:'Comm'},{w:'FLY',d:'Fly'},{w:'LAND',d:'Land'},{w:'SAFE',d:'Safe'}],
                  sentences: ["PILOT SEES THE RAIN", "STORM IS NEAR", "SIGNAL IS GOOD", "GO TO THE TOWER"],
                  story: { title: "Radio Check", chat: [
@@ -153,7 +153,7 @@
                      {s:"Merchant",l:"GOOD I TAKE THE PAY"}
                  ] }
             },
-            9: { title: "Voyage", icon: "compass", 
+            9: { title: "Navigation", icon: "compass", 
                  vocab: [{w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'}],
                  sentences: ["CAPTAIN HAS THE MAP", "SHIP GOES FAR", "CITY IS NEAR", "SEA IS BLUE"],
                  story: { title: "Captain Log", chat: [
@@ -164,7 +164,7 @@
                      {s:"Captain",l:"GOOD STAY ON THE WAY"}
                  ] }
             },
-            10: { title: "The Atlas", icon: "flag", 
+            10: { title: "World Nations", icon: "flag", 
                   vocab: [{w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'BIG',d:'Large'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'}],
                   sentences: ["JAPAN IS FAR", "USA IS BIG", "THE WORLD IS ONE", "PEOPLE ARE GOOD"],
                   story: { title: "World Map", chat: [
@@ -175,7 +175,7 @@
                       {s:"Explorer",l:"I TRAVEL THE WORLD"}
                   ] }
             },
-            11: { title: "Harmony", icon: "music", 
+            11: { title: "Music", icon: "music", 
                   vocab: [{w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'}],
                   sentences: ["I PLAY THE DRUM", "SOLOIST PLAYS VIOLIN", "THE SONG IS LOUD", "HEAR THE MUSIC"],
                   story: { title: "Rehearsal", chat: [
@@ -186,7 +186,7 @@
                       {s:"Soloist",l:"HEAR THE MUSIC FLOW"}
                   ] }
             },
-            12: { title: "TOTAL SYNC", icon: "zap", 
+            12: { title: "FINAL REVIEW", icon: "zap", 
                   vocab: [{w:'VOICE',d:'Signal'},{w:'MASTER',d:'High'},{w:'SYNC',d:'Align'},{w:'EYEAN',d:'System'},{w:'TOTAL',d:'Whole'},{w:'ALL',d:'Every'},{w:'END',d:'Final'},{w:'PEACE',d:'Calm'},{w:'KNOW',d:'Understand'},{w:'LIFE',d:'Life'}],
                   sentences: ["EYEAN IS REAL", "THE SYNC IS MASTER", "THE END IS NEAR", "PEACE IS TOTAL"],
                   story: { title: "Final Sync", chat: [
