@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eyelearner (v1.3.1)</title>
+    <title>Eyelearner (v1.3.2)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -263,7 +263,7 @@
             });
 
             // 2. Multiple Sentence Builders (Exercises 5, 6, and 7)
-            // We loop 3 times to add 3 different sentences from your library
+            // We loop 3 times to add 3 different sentences from the ATLAS
             for (let i = 0; i < 3; i++) {
                 // This picks different sentences based on the lesson index and loop index
                 const sIndex = (lIdx + i) % u.sentences.length;
@@ -304,10 +304,11 @@
             const cur = s.exercises[s.index];
 
             if (s.feedback) {
-                if (s.index < 9) {
+                // Move to the next exercise
+                if (s.index < s.exercises.length - 1) {
                     s.index++;
                     s.feedback = null;
-                    s.selection = [];
+                    s.selection = []; // CRITICAL: Reset the builder for the next sentence
                     render();
                 } else {
                     finishLesson();
@@ -315,18 +316,18 @@
                 return;
             }
 
-            // Logic for checking
-            if (cur.type === 'vocab' || cur.type === 'story_read') {
-                s.feedback = 'correct';
-            } else if (cur.type === 'sentence') {
-                const ans = s.selection.join(' ');
-                s.feedback = ans === cur.target ? 'correct' : 'wrong';
-            } else if (cur.type === 'cloze') {
-                // Handled by direct click in template for simplicity or we can add state
-                s.feedback = s.selection[0] === cur.target ? 'correct' : 'wrong';
-            }
-            render();
-        }
+    // Logic for checking the answer
+    if (cur.type === 'vocab' || cur.type === 'story_read') {
+        s.feedback = 'correct';
+    } else if (cur.type === 'sentence') {
+        const ans = s.selection.join(' ');
+        // We trim and use uppercase to ensure small typos don't break it
+        s.feedback = ans.trim() === cur.target.trim() ? 'correct' : 'wrong';
+    } else if (cur.type === 'cloze') {
+        s.feedback = s.selection[0] === cur.target ? 'correct' : 'wrong';
+    }
+    render();
+}
 
         function finishLesson() {
             state.xp += 50; 
