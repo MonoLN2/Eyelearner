@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eyelearner (v1.3.3)</title>
+    <title>Eyelearner (v1.4.0)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -110,8 +110,8 @@
             },
             5: { title: "Politics", icon: "shield", 
                  vocab: [{w:'JUDGE',d:'Official'},{w:'KING',d:'Ruler'},{w:'QUEEN',d:'Ruler'},{w:'LAW',d:'Rules'},{w:'VOTE',d:'Choice'},{w:'PEACE',d:'Calm'},{w:'WAR',d:'Fight'},{w:'GUARD',d:'Protect'},{w:'CITIZEN',d:'Person'},{w:'TRUTH',d:'Fact'},{w:'RIGHT',d:'Correct'},{w:'POWER',d:'STRENGTH'},{w:'POLITICS',d:'Politics'},{w:'IDEA',d:'Idea'},{w:'THINK',d:'Think'}],
-                 sentences: ["THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN make THE LAWS."],
-                 story: { title: "TAlking about politics", chat: [
+                 sentences: ["THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN MAKE THE LAWS."],
+                 story: { title: "Talking about politics", chat: [
                      {s:"Citizen 1",l:"DID YOU SEE THE NEW LAW?"},
                      {s:"Citizen 2",l:"YES, I THINK IT WAS A GOOD IDEA."},
                      {s:"Citizen 1",l:"I HOPE WE WILL STAY PEACEFUL."},
@@ -129,7 +129,7 @@
                             "KAEL RUNS FAST.", "MIRA WALKS SLOW.", "STOP JUMPING.", "MY BODY IS STRONG.", "HELLO MIRA, DO YOU LIKE TO WALK?", "KAEL RUNS EVERY DAY.", "MIRA LIKES TO WALK.", "KAEL IS WALKING TO THE CITY.", "COOL, I LIKE WALKING, TOO.", "KAEL IS VERY STRONG.", "DO YOU HIKE OFTEN?", "I LIKE HIKING", "KAEL HIKES EVERY WEEK.", "I RUN EVERY SUNDAY.", "MIRA WALKS EVERY MONDAY AND HIKES EVERY FRIDAY.", "MY MOM LIKES TO WALK", "MY DAD HIKES EVERY WEDNESDAY.",
                             "THE SUN IS BRIGHT", "GAIA SEES THE TREE", "THE RIVER IS THERE", "THE SKY IS BLUE.", "THERE ARE MANY FLOWERS.", "THAT BIRD IS BIG!", "THE FLOWERS ARE PRETTY.", "MY MOM LIKES FLOWERS.", "MY DAD LIKES BIRDS.", "THE FLOWERS ARE MANY DIFFERENT COLORS.",
                             "THE CLERK BUILDS A TOOL", "I WORK AT THE OFFICE", "MY WORK IS IMPORTANT", "MY WAGE IS HIGH", "WHAT IS YOUR JOB?", "MY JOB IS BUILDING TOOLS.", "ARE YOU A DOCTOR?", "YES, I AM A DOCTOR.", "NO, I AM A TEACHER.", "I AM NOT A TEACHER, I AM A WAITER.", "BORIS IS MY TEACHER.", "HELLO, ARE YOU MY TEACHER?", "SHE IS MY NEW TEACHER.",
-                            "THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN make THE LAWS.", "CURIOSITY IS GOOD."],
+                            "THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN MAKE THE LAWS.", "CURIOSITY IS GOOD."],
                  story: { title: "CHECKPOINT 1", chat: [
                      {s:"Boris",l:"HELLO, MY NAME IS BORIS. I LIKE TO RUN EVERY SUNDAY."},
                      {s:"Hilda",l:"COOL. I LIKE FLOWERS BECAUSE THEY ARE VERY COLORFUL."},
@@ -255,32 +255,38 @@
             const u = ATLAS[uId];
             let exercises = [];
     
-            // 1. Vocab Intro (First 4 exercises)
             const offset = (lIdx % 2) * 4;
             u.vocab.slice(offset, offset + 4).forEach(v => {
                 exercises.push({ type:'vocab', word:v.w, d:v.d, p:scramble(v.w) });
             });
 
-            // 2. Multiple Sentence Builders (Exercises 5, 6, and 7)
-            // Picks random sentences from the ATLAS
             for (let i = 0; i < 3; i++) {
                 const sIndex = Math.floor(Math.random() * u.sentences.length);
                 const s = u.sentences[sIndex];
-        
+                
+                // Get 3-6 random distractor words from ATLAS vocab
+                const distractorCount = Math.floor(Math.random() * 4) + 3; // 3 to 6
+                const distractors = [];
+                const allVocab = u.vocab.map(v => v.w);
+                while(distractors.length < distractorCount) {
+                    const randomWord = allVocab[Math.floor(Math.random() * allVocab.length)];
+                    if(!s.split(' ').includes(randomWord) && !distractors.includes(randomWord)) {
+                        distractors.push(randomWord);
+                    }
+                }
+
                 exercises.push({ 
                     type:'sentence', 
                     en: s, 
                     target: s, 
-                    bank: [...s.split(' '), 'VOID', 'DARK', 'REAL'].sort(() => Math.random() - 0.5) 
+                    bank: [...s.split(' '), ...distractors].sort(() => Math.random() - 0.5) 
                 });
             }
 
-            // 3. Story or Cloze (Exercise 8)
             if (lIdx === 4 || lIdx === 9) {
                 exercises.push({ type:'story_read', story: u.story });
             }
 
-            // 4. Fill remaining slots with random vocab to reach a total of 10
             while(exercises.length < 10) {
                 const v = u.vocab[Math.floor(Math.random() * u.vocab.length)];
                 exercises.push({ type:'vocab', word:v.w, d:v.d, p:scramble(v.w) });
@@ -291,11 +297,20 @@
             render();
         }
 
-        function handleWordClick(word) {
+        function handleWordClick(word, bankIndex = -1) {
             const s = state.session;
             if (s.feedback) return; 
-    
-            s.selection.push(word);
+
+            if (bankIndex !== -1) {
+                // Moving word from Bank to Selection
+                s.selection.push(word);
+            } else {
+                // Moving word from Selection back to Bank
+                const index = s.selection.indexOf(word);
+                if (index > -1) {
+                    s.selection.splice(index, 1);
+                }
+            }
             render();
         }
 
@@ -427,6 +442,18 @@
                         </div>
                     `;
                 } else if (cur.type === 'sentence') {
+                    // Filter the bank to only show words NOT currently in selection
+                    // We map the bank to keep track of counts for duplicate words in sentences
+                    const currentSelection = [...s.selection];
+                    const visibleBank = cur.bank.filter(word => {
+                        const selectIdx = currentSelection.indexOf(word);
+                        if (selectIdx > -1) {
+                            currentSelection.splice(selectIdx, 1);
+                            return false;
+                        }
+                        return true;
+                    });
+
                     content = `
                         <div class="animate-in space-y-8">
                             <h3 class="text-sm font-black uppercase text-slate-500 tracking-widest">Translate to English</h3>
@@ -434,11 +461,10 @@
                                 <div class="text-4xl eyean-font text-sky-400 leading-relaxed">${scriptify(cur.en, state.script)}</div>
                             </div>
                             <div class="min-h-[60px] flex flex-wrap gap-2 justify-center border-b border-white/5 pb-4">
-                                ${s.selection.map(w => `<div class="bg-sky-500 text-slate-950 px-4 py-2 rounded-xl font-bold uppercase shadow-lg">${w}</div>`).join('')}
+                                ${s.selection.map(w => `<button onclick="handleWordClick('${w}')" class="bg-sky-500 text-slate-950 px-4 py-2 rounded-xl font-bold uppercase shadow-lg hover:opacity-80">${w}</button>`).join('')}
                             </div>
                             <div class="flex flex-wrap gap-2 justify-center">
-                                ${cur.bank.map(w => `<button onclick="handleWordClick('${w}')" class="word-chip bg-slate-900 border-b-4 border-black px-4 py-2 rounded-xl font-bold uppercase">${w}</button>`).join('')}
-                                <button onclick="clearSelection()" class="px-4 py-2 text-slate-500 font-bold uppercase text-xs">Clear</button>
+                                ${visibleBank.map((w, idx) => `<button onclick="handleWordClick('${w}', ${idx})" class="word-chip bg-slate-900 border-b-4 border-black px-4 py-2 rounded-xl font-bold uppercase">${w}</button>`).join('')}
                             </div>
                         </div>
                     `;
@@ -457,19 +483,6 @@
                                             <div class="eyean-font text-sky-400 mb-2">${scriptify(m.l, state.script)}</div>
                                         </div>
                                     </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `;
-                } else if (cur.type === 'cloze') {
-                    content = `
-                        <div class="animate-in space-y-8 text-center">
-                            <h3 class="text-xl font-bold italic mb-8">${cur.en}</h3>
-                            <div class="grid grid-cols-1 gap-4">
-                                ${cur.opts.map(opt => `
-                                    <button onclick="state.session.selection=['${opt}']; handleAction()" class="bg-slate-900 border-2 border-white/10 hover:border-sky-500 p-6 rounded-3xl font-black uppercase text-xl transition-all">
-                                        ${opt}
-                                    </button>
                                 `).join('')}
                             </div>
                         </div>
