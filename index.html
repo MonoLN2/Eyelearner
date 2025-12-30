@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eyelearner (v1.3.2)</title>
+    <title>Eyelearner (v1.3.3)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -293,12 +293,21 @@
             render();
         }
 
+        function handleWordClick(word) {
+            const s = state.session;
+            // Don't allow clicking if we are showing "Correct/Wrong" feedback
+            if (s.feedback) return; 
+    
+            s.selection.push(word);
+            render(); // Redraw the screen to show the word in the selection box
+        }
+
         function clearSelection() {
             if (state.session.feedback) return;
             state.session.selection = [];
             render();
         }
-
+        
         function handleAction() {
             const s = state.session;
             const cur = s.exercises[s.index];
