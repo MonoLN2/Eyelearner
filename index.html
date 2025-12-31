@@ -162,47 +162,55 @@
                  ] }
             },
             9: { title: "Navigation", icon: "compass", 
-                 vocab: [{w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'}],
-                 sentences: ["CAPTAIN HAS THE MAP", "SHIP GOES FAR", "CITY IS NEAR", "SEA IS BLUE"],
+                 vocab: [{w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'},{w:'COMPASS',d:'Navigation device'},{w:'NORTH',d:'North'},{w:'SOUTH',d:'South'},{w:'EAST',d:'East'},{w:'WEST',d:'West'}],
+                 sentences: ["THE CAPTAIN HAS THE MAP.","DO YOU HAVE THE MAP?", "NO, I DO NOT HAVE THE MAP.", "THE CAPTAIM GUIDES THE SHIP NORTH.", "THE COMPASS POINTS NORTH.", "WE ARE GOING SOUTH.", "THE CITY IS SOUTHEAST OF THE SHIP.", "CAPTAIN, WHERE IS THE CITY?", "THE PORT IS TO THE WEST.", "WHICH WAY IS THE CITY?", "GO NORTH FOR THREE HOURS, THEN GO EAST.", "HOW DO I GET TO THE CITY?"],
                  story: { title: "Captain Log", chat: [
-                     {s:"Captain",l:"SAILOR I HAVE THE MAP"},
-                     {s:"Sailor",l:"THE SHIP GOES FAR NOW"},
-                     {s:"Captain",l:"GO TO THE CITY PORT"},
-                     {s:"Sailor",l:"THE SEA IS BLUE TODAY"},
-                     {s:"Captain",l:"GOOD STAY ON THE WAY"}
+                     {s:"Captain",l:"WE ARE ALMOST TO THE CITY."},
+                     {s:"Sailor",l:"GOOD, DO YOU HAVE THE MAP?"},
+                     {s:"Captain",l:"YES, I HAVE THE MAP. TURN NORTH."},
+                     {s:"Sailor",l:"OKAY, WE ARE HEADING NORTH."},
+                     {s:"Captain",l:"THERE, I SEE LAND."}
                  ] }
             },
             10: { title: "World Nations", icon: "flag", 
-                  vocab: [{w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'BIG',d:'Large'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'}],
-                  sentences: ["JAPAN IS FAR", "USA IS BIG", "THE WORLD IS ONE", "PEOPLE ARE GOOD"],
+                  vocab: [{w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'},{w:'FRANCE',d:'Land'},{w:'RUSSIA',d:'Land'},{w:'GERMANY',d:'Land'}],
+                  sentences: ["HAVE YOU EVER BEEN TO JAPAN?", "THE USA IS BIG.", "I WENT TO GERMANY LAST YEAR.", "THE BORDER BETWEEN FRANCE AND GERMANY IS BIG.", "BUY THE MAP FROM THE MAPMAKER.", "THE EXPLORER HAS BEEN TO RUSSIA.", "FRANCE IS FAR FROM CHINA.", "RUSSIA BORDERS CHINA.", "HAVE YOU EVER BEEN TO RUSSIA?"],
                   story: { title: "World Map", chat: [
-                      {s:"Explorer",l:"THE WORLD IS ONE TOTAL"},
-                      {s:"Mapmaker",l:"JAPAN IS FAR FROM HERE"},
-                      {s:"Explorer",l:"I SEE THE CHINA BORDER"},
-                      {s:"Mapmaker",l:"USA IS A BIG LAND"},
-                      {s:"Explorer",l:"I TRAVEL THE WORLD"}
+                      {s:"Explorer",l:"DO YOU HAVE A MAP OF CHINA?"},
+                      {s:"Mapmaker",l:"YES, I DO. IT IS FIVE BOIR."},
+                      {s:"Explorer",l:"GOOD, HAVE YOU EVER BEEN TO CHINA BEFORE?"},
+                      {s:"Mapmaker",l:"NO, BUT I HAVE BEEN TO JAPAN."},
+                      {s:"Explorer",l:"COOL, THANK YOU FOR THE MAP."}
                   ] }
             },
             11: { title: "Music", icon: "music", 
-                  vocab: [{w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'}],
-                  sentences: ["I PLAY THE DRUM", "SOLOIST PLAYS VIOLIN", "THE SONG IS LOUD", "HEAR THE MUSIC"],
+                  vocab: [{w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'},{w:'PIANO',d:'Insturment'},{w:'GUITAR',d:'Instrument'},{w:'INSTRUMENT',d:'Musical object'}],
+                  sentences: ["I PLAY THE DRUMS.", "THE SOLOIST PLAYS THE VIOLIN.", "THE MUSIC IS GOOD.", "I LIKE THIS SONG.", "DO YOU PLAY THE PIANO?", "I PLAY DRUMS, AND I ALSO PLAY GUITAR.", "THAT SOLOIST CAN PLAY THE PIANO VERY WELL.", "HELLO, DO YOU SING OR PLAY AN INSTRUMENT?", "I SING AND PLAY THE PIANO.", "THE CONDUCTOR SAYS TO PLAY MORE SOFTLY."],
                   story: { title: "Rehearsal", chat: [
-                      {s:"Soloist",l:"THE SONG IS LOUD CONDUCTOR"},
-                      {s:"Conductor",l:"PLAY SOFT SONG NOW"},
-                      {s:"Soloist",l:"I PLAY VIOLIN"},
-                      {s:"Conductor",l:"I HEAR THE GOOD BAND"},
-                      {s:"Soloist",l:"HEAR THE MUSIC FLOW"}
+                      {s:"Soloist",l:"I LIKE PLAYING THE VIOLIN."},
+                      {s:"Conductor",l:"GOOD, YOU CAN BE THE SOLOIST."},
+                      {s:"Soloist",l:"THANK YOU!"},
+                      {s:"Conductor",l:"PLAY THE SONG NOW."},
+                      {s:"Soloist",l:"I LIKE THIS SONG."}
                   ] }
             },
-            12: { title: "FINAL REVIEW", icon: "zap", 
-                  vocab: [{w:'VOICE',d:'Signal'},{w:'MASTER',d:'High'},{w:'SYNC',d:'Align'},{w:'EYEAN',d:'System'},{w:'TOTAL',d:'Whole'},{w:'ALL',d:'Every'},{w:'END',d:'Final'},{w:'PEACE',d:'Calm'},{w:'KNOW',d:'Understand'},{w:'LIFE',d:'Life'}],
-                  sentences: ["EYEAN IS REAL", "THE SYNC IS MASTER", "THE END IS NEAR", "PEACE IS TOTAL"],
-                  story: { title: "Final Sync", chat: [
-                      {s:"Voice",l:"TOTAL SYNC IS MASTER"},
-                      {s:"Master",l:"EYEAN IS THE END"},
-                      {s:"Voice",l:"I KNOW THE ALL"},
-                      {s:"Master",l:"PEACE IS REAL TOTAL"},
-                      {s:"Voice",l:"SYNC IS DONE"}
+            12: { title: "CHECKPOINT 2", icon: "zap", 
+                  vocab: [{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'COLD',d:'Cold'},{w:'SUNNY',d:'Sunny'},{w:'RAINY',d:'Rainy'},{w:'TODAY',d:'This day'},{w:'TOMORROW',d:'Next day'},{w:'YESTERDAY',d:'Previous Day'},{w:'TEMPURATURE',d:'Temperature'},{w:'FAHRENHEIT',d:'Temperature scale'},{w:'CELSIUS',d:'Temperature scale'},
+                         {w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Eyean Currency'},{w:'COST',d:'Value'},{w:'PAY',d:'Give money'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'},{w:'TWO',d:'2'},{w:'THREE',d:'3'},{w:'FOUR',d:'4'},{w:'FIVE',d:'5'},{w:'SIX',d:'6'},{w:'SEVEN',d:'7'},{w:'EIGHT',d:'8'},{w:'NINE',d:'9'},{w:'ITEM',d:'Item'},
+                         {w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'},{w:'COMPASS',d:'Navigation device'},{w:'NORTH',d:'North'},{w:'SOUTH',d:'South'},{w:'EAST',d:'East'},{w:'WEST',d:'West'},
+                         {w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'},{w:'FRANCE',d:'Land'},{w:'RUSSIA',d:'Land'},{w:'GERMANY',d:'Land'},
+                         {w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'},{w:'PIANO',d:'Insturment'},{w:'GUITAR',d:'Instrument'},{w:'INSTRUMENT',d:'Musical object'},{w:'EYEAN',d:'Language'},{w:'LANGUAGE',d:'Language'}],
+                 sentences: ["IT IS RAINY TODAY.", "IT WILL BE RAINY ON MONDAY.", "IT IS SUNNY HERE.", "THERE IS A LOT OF SNOW.", "IT IS VERY HOT TODAY.", "IT WILL BE HOT TOMORROW.", "IT WAS HOT AND SUNNY YESTERDAY.", "WILL IT RAIN TOMORROW?", "MOM, IT IS TOO RAINY TODAY.","HOW HOT IS IT TODAY?", "HOW HOT WILL IT BE TOMORROW?", "WHAT'S THE TEMPERATURE?", "IT IS FORTY-FIVE DEGREES FAHRENHEIT.","IT IS FIFTEEN DEGREES CELSIUS.",
+                            "THIS FOOD COSTS TEN BOIR.", "HOW MUCH DOES THIS COST?", "BUY THAT IF YOU WANT.", "LOOK AT WHAT THE MERCHANT'S SELLING!", "THIS COSTS TWO BOIR.", "THIS COSTS THREE BOIR.", "THIS ITEM COSTS THREE BOIR.", "THIS ITEM COSTS FOUR BOIR.", "THIS COSTS FIVE BOIR.", "THIS COSTS SIX BOIR.", "THIS IS SEVEN BOIR.", "PAY FOR THE FOOD, PLEASE.","PAY THE MERCHANT NINE BOIR.",
+                            "THE CAPTAIN HAS THE MAP.","DO YOU HAVE THE MAP?", "NO, I DO NOT HAVE THE MAP.", "THE CAPTAIM GUIDES THE SHIP NORTH.", "THE COMPASS POINTS NORTH.", "WE ARE GOING SOUTH.", "THE CITY IS SOUTHEAST OF THE SHIP.", "CAPTAIN, WHERE IS THE CITY?", "THE PORT IS TO THE WEST.", "WHICH WAY IS THE CITY?", "GO NORTH FOR THREE HOURS, THEN GO EAST.", "HOW DO I GET TO THE CITY?",
+                            "HAVE YOU EVER BEEN TO JAPAN?", "THE USA IS BIG.", "I WENT TO GERMANY LAST YEAR.", "THE BORDER BETWEEN FRANCE AND GERMANY IS BIG.", "BUY THE MAP FROM THE MAPMAKER.", "THE EXPLORER HAS BEEN TO RUSSIA.", "FRANCE IS FAR FROM CHINA.", "RUSSIA BORDERS CHINA.", "HAVE YOU EVER BEEN TO RUSSIA?",
+                            "I PLAY THE DRUMS.", "THE SOLOIST PLAYS THE VIOLIN.", "THE MUSIC IS GOOD.", "I LIKE THIS SONG.", "DO YOU PLAY THE PIANO?", "I PLAY DRUMS, AND I ALSO PLAY GUITAR.", "THAT SOLOIST CAN PLAY THE PIANO VERY WELL.", "HELLO, DO YOU SING OR PLAY AN INSTRUMENT?", "I SING AND PLAY THE PIANO.", "THE CONDUCTOR SAYS TO PLAY MORE SOFTLY."],
+                  story: { title: "REVIEW #2", chat: [
+                      {s:"Boris",l:"IT IS VERY HOT TODAY. I WANT TO BUY THIS FOOD."},
+                      {s:"Hilda",l:"YES, IT IS HOT. THIS FOOD COSTS THREE BOIR."},
+                      {s:"Boris",l:"THANK YOU, DO YOU KNOW HOW TO GET TO THE CITY?"},
+                      {s:"Hilda",l:"YES, GO NORTH. HAVE YOU EVER BEEN TO CHINA?"},
+                      {s:"Boris",l:"NO, BUT I PLAY THE PIANO. THANK YOU, GOODBYE."}
                   ] }
             }
         };
