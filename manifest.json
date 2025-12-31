@@ -2,7 +2,7 @@
   "name": "Eyelearner",
   "short_name": "ELN",
   "description": "Eyean Course",
-  "start_url": "./Eyelearner",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
