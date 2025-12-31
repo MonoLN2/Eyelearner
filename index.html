@@ -49,13 +49,13 @@
         </main>
 
     <nav id="footer-nav" class="fixed bottom-0 left-0 right-0 bg-[#050608]/95 backdrop-blur-xl border-t border-white/5 px-6 py-4 flex justify-around items-center z-[90] pb-8">
-        <button onclick="setView('path')" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
+        <button aria-label="View course map"onclick="setView('path')" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
             <i data-lucide="map" class="w-6 h-6"></i><span class="text-[8px] font-black uppercase">Course</span>
         </button>
-        <button onclick="setView('translator')" id="nav-translator" class="flex flex-col items-center gap-1 transition-colors">
+        <button aria-label="Live translator"onclick="setView('translator')" id="nav-translator" class="flex flex-col items-center gap-1 transition-colors">
             <i data-lucide="languages" class="w-6 h-6"></i><span class="text-[8px] font-black uppercase">Translator</span>
         </button>
-        <button onclick="setView('codex')" id="nav-codex" class="flex flex-col items-center gap-1 transition-colors">
+        <button aria-label="Full list of vocabulary"onclick="setView('codex')" id="nav-codex" class="flex flex-col items-center gap-1 transition-colors">
             <i data-lucide="library" class="w-6 h-6"></i><span class="text-[8px] font-black uppercase">Dictionary</span>
         </button>
     </nav>
