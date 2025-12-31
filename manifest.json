@@ -1,8 +1,8 @@
 {
-  "name": "My GitHub PWA",
-  "short_name": "MyPWA",
-  "description": "A description of what my app does.",
-  "start_url": "./index.html",
+  "name": "Eyelearner",
+  "short_name": "ELN",
+  "description": "Eyean Course",
+  "start_url": "./Eyelearner",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
