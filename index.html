@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Master the Eyean linguistic system through interactive situational logic and narrative immersion.">
     <meta name="theme-color" content="#050608">
-    <title>Eyelearner (v1.7.0)</title>
+    <title>Eyelearner (v1.7.3)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,15 +42,13 @@
         
         .text-slate-600, .text-slate-500 { color: var(--sub) !important; }
 
-        /* --- ANIMATIONS --- */
-        
+        /* Animation System */
         .fast-spin { animation: quickBurst 0.4s cubic-bezier(0.15, 0, 0.15, 1) forwards; }
         @keyframes quickBurst {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
-        /* Dictionary: Keyframe Logic (Smoother) */
         .dictionary-stack { display: flex; align-items: flex-end; gap: 2px; }
         .book { width: 4px; height: 16px; background: currentColor; border-radius: 1px; }
         .book-tall { height: 20px; }
@@ -72,13 +70,13 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col" onclick="initAudio()">
 
     <header class="sticky top-0 z-[100] bg-opacity-95 backdrop-blur-lg border-b border-white/5 px-6 py-4 flex justify-between items-center" style="background: var(--bg);">
         <div class="flex items-center gap-3">
             <div style="width:40px; height:40px;" class="bg-sky-500 rounded-xl flex items-center justify-center text-slate-950 font-black shadow-lg" aria-hidden="true">E</div>
             <div>
-                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.0)</h1>
+                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.3)</h1>
                 <button onclick="toggleScript()" id="script-toggle" aria-label="Toggle visual script" class="text-[10px] text-sky-400 font-bold uppercase tracking-widest" style="color: var(--sky);">Script: West</button>
             </div>
         </div>
@@ -91,26 +89,25 @@
     </main>
 
     <nav id="footer-nav" class="fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t border-white/5 px-6 py-4 flex justify-around items-center z-[90] pb-8" style="background: var(--bg);">
-        <button onclick="SoundFX.paper(); setView('path')" aria-label="Course" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-path-container" class="w-6 h-6 flex items-center justify-center"></div>
+        <button onclick="SoundFX.play('paper'); setView('path')" aria-label="Course" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
+            <div id="icon-path-container"></div>
             <span class="text-[8px] font-black uppercase">Course</span>
         </button>
-        <button onclick="SoundFX.ping(); setView('translator')" aria-label="Translator" id="nav-translator" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-translator-container" class="w-6 h-6 flex items-center justify-center"></div>
+        <button onclick="SoundFX.play('ping'); setView('translator')" aria-label="Translator" id="nav-translator" class="flex flex-col items-center gap-1 transition-colors">
+            <div id="icon-translator-container"></div>
             <span class="text-[8px] font-black uppercase">Translator</span>
         </button>
-        <button onclick="SoundFX.page(); setView('codex')" aria-label="Dictionary" id="nav-codex" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-codex-container" class="w-6 h-6 flex items-center justify-center"></div>
+        <button onclick="SoundFX.play('page'); setView('codex')" aria-label="Dictionary" id="nav-codex" class="flex flex-col items-center gap-1 transition-colors">
+            <div id="icon-codex-container"></div>
             <span class="text-[8px] font-black uppercase">Dictionary</span>
         </button>
-        <button onclick="SoundFX.gear(); setView('settings')" aria-label="Settings" id="nav-settings" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-settings-container" class="w-6 h-6 flex items-center justify-center"></div>
+        <button onclick="SoundFX.play('gear'); setView('settings')" aria-label="Settings" id="nav-settings" class="flex flex-col items-center gap-1 transition-colors">
+            <div id="icon-settings-container"></div>
             <span class="text-[8px] font-black uppercase">Settings</span>
         </button>
     </nav>
 
     <script>
-        // CORE DATA
         const WEST = { 'A': 'ア', 'B': 'ש', 'C': 'ジ', 'D': '⊣', 'E': 'え', 'F': 'ε', 'G': '↸', 'H': 'チ', 'I': 'ꮦ', 'J': 'Б', 'K': 'ᓭ', 'L': '⎓', 'M': 'ꮏ', 'N': 'ք', 'O': 'ꝋ', 'P': '∷', 'Q': 'פ', 'R': 'ꮭ', 'S': '⋊', 'T': 'ꭴ', 'U': 'µ', 'V': 'ᓵ', 'W': 'ꮑ', 'X': 'є', 'Y': 'よ', 'Z': 'չ' };
         const EAST = { 'A': 'а', 'B': 'в', 'C': 'Ж', 'D': 'г', 'E': 'э', 'F': 'з', 'G': 'д', 'H': 'х', 'I': 'и', 'J': 'Б', 'K': 'с', 'L': 'ф', 'M': 'т', 'N': 'п', 'O': 'ꝋ', 'P': 'р', 'Q': 'פ', 'R': 'ꮭ', 'S': 'к', 'T': 'ꭴ', 'U': 'у', 'V': 'ᓵ', 'W': 'н', 'X': 'є', 'Y': 'й', 'Z': 'չ' };
         const SPOKEN = { 'A': 'A', 'B': 'V', 'C': 'ZH', 'D': 'G', 'E': 'E', 'F': 'Z', 'G': 'D', 'H': 'H', 'I': 'I', 'J': 'B', 'K': 'S', 'L': 'F', 'M': 'T', 'N': 'P', 'O': 'O', 'P': 'R', 'Q': 'Q', 'R': 'L', 'S': 'K', 'T': 'M', 'U': 'U', 'V': 'C', 'W': 'N', 'X': 'X', 'Y': 'Y', 'Z': 'Z' };
@@ -123,7 +120,7 @@
             5: { title: "Politics", icon: "shield", vocab: [{w:'JUDGE',d:'Official'},{w:'KING',d:'Ruler'},{w:'QUEEN',d:'Ruler'},{w:'LAW',d:'Rules'},{w:'VOTE',d:'Choice'},{w:'PEACE',d:'Calm'},{w:'WAR',d:'Fight'},{w:'GUARD',d:'Protect'},{w:'CITIZEN',d:'Person'},{w:'TRUTH',d:'Fact'},{w:'RIGHT',d:'Correct'},{w:'POWER',d:'STRENGTH'},{w:'POLITICS',d:'Politics'},{w:'IDEA',d:'Idea'},{w:'THINK',d:'Think'}], sentences: ["THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN MAKE THE LAWS."], story: { title: "Talking about politics", chat: [{s:"Citizen 1",l:"DID YOU SEE THE NEW LAW?"},{s:"Citizen 2",l:"YES, I THINK IT WAS A GOOD IDEA."},{s:"Citizen 1",l:"I HOPE WE WILL STAY PEACEFUL."},{s:"Citizen 2",l:"THE KING SAYS THE WAR IS ALMOST OVER."},{s:"Citizen 1",l:"I THINK HE IS RIGHT."}] } },
             6: { title: "CHECKPOINT 1", icon: "scroll", vocab: [{w:'HELLO',d:'Greeting'},{w:'NAME',d:'Identity'},{w:'FRIEND',d:'Ally'},{w:'AM',d:'Be(1st)'},{w:'ARE',d:'Be(2nd)'},{w:'KIND',d:'Nice'},{w:'GOOD',d:'Safe'},{w:'THANKS',d:'Thanks'}, {w: 'THIS',d: 'This'}, {w: 'GOODBYE',d: 'Goodbye'}, {w:'NICE',d:'Pleasant'},{w: 'MEET',d: 'Encounter'},{w:'NEW',d:'New'},{w:'HE',d:'Male pronoun'},{w:'SHE',d:'Female pronoun'},{w:'MOM',d:'Mother'},{w:'DAD',d:'FATHER'},{w:'HEAD',d:'Top'},{w:'HAND',d:'Grab'},{w:'LEG',d:'Walk'},{w:'RUN',d:'Fast'},{w:'WALK',d:'Slow'},{w:'STOP',d:'Stay'},{w:'FAST',d:'High Speed'},{w:'STRONG',d:'Strong'}, {w: 'JUMP',d:'Jump'}, {w:'LIKE',d:'Enjoy'}, {w:'COOL',d:'Awesome'}, {w:'BETTER',d:'More good'},{w:'TOO',d:'Also'},{w:'HIKE',d:'Walk through nature'},{w:'OFTEN',d:'A lot'},{w:'WEEK',d:'Seven days'},{w:'MONDAY',d:'Day of the week'},{w:'TUESDAY',d:'Day of the week'},{w:'WEDNESDAY',d:'Day of the week'},{w:'THURSDAY',d:'Day of the week'},{w:'FRIDAY',d:'Day of the week'},{w:'SATURDAY',d:'Day of the week'},{w:'SUNDAY',d:'Day of the week'},{w:'EVERY',d:'Every'},{w:'TREE',d:'Plant'},{w:'RIVER',d:'Water'},{w:'SUN',d:'Star'},{w:'SKY',d:'Above'},{w:'DARK',d:'Dim'},{w:'GREEN',d:'Nature'},{w:'EARTH',d:'Ground'},{w:'LIGHT',d:'Light'},{w:'VERY',d:'Very'},{w:'TALL',d:'Tall'},{w:'WOW',d:'Expression of amazement'},{w:'ANIMAL',d:'Animal'},{w:'BIRD',d:'FLYING ANIMAL'},{w:'FLOWER',d:'Colorful plant'},{w:'MANY',d:'Lots of'},{w:'BIG',d:'Large'},{w:'PRETTY',d:'BEAUTIFUL'},{w:'COLOR',d:'Color'},{w:'BOSS',d:'Leader'},{w:'CLERK',d:'Worker'},{w:'OFFICE',d:'Work room'},{w:'TOOL',d:'Useful item'},{w:'BUILD',d:'Create'},{w:'JOB',d:'Task'},{w:'WAGE',d:'Pay'},{w:'DESK',d:'Table'},{w:'PAPER',d:'Sheet'},{w:'PEN',d:'Writer'},{w:'FINISH',d:'Complete'}, {w:'Doctor',d:'Profession'},{w:'TEACHER',d:'Profession'},{w:'WAITER',d:'Profession'},{w:'JUDGE',d:'Official'},{w:'KING',d:'Ruler'},{w:'QUEEN',d:'Ruler'},{w:'LAW',d:'Rules'},{w:'VOTE',d:'Choice'},{w:'PEACE',d:'Calm'},{w:'WAR',d:'Fight'},{w:'GUARD',d:'Protect'},{w:'CITIZEN',d:'Person'},{w:'TRUTH',d:'Fact'},{w:'RIGHT',d:'Correct'},{w:'POWER',d:'STRENGTH'},{w:'POLITICS',d:'Politics'},{w:'IDEA',d:'Idea'},{w:'THINK',d:'Think'},{w:'CURIOSITY',d:'Curiosity'},{w:'BECAUSE',d:'Because'},{w:'COLORFUL',d:'Lots of color'}], sentences: ["I AM ELIAS.", "YOU ARE SARAH.", "SARAH IS MY FRIEND.", "HELLO, MY NAME IS ELIAS.", "WELCOME, THIS IS SARAH.", "THANK YOU, ELIAS.", "WELCOME, ELIAS.", "HELLO, I AM ELIAS AND THIS IS MY FRIEND SARAH.", "NICE TO MEET YOU.", "HELLO, NICE TO MEET YOU!", "YOU ARE MY NEW FRIEND.", "SHE IS MY NEW FRIEND.", "THIS IS MY DAD.", "DAD, THIS IS MY NEW FRIEND SARAH.", "HELLO, DAD!", "HELLO, MOM!", "THANK YOU, MOM!", "MOM, THIS IS MY NEW FRIEND ELIAS.", "KAEL RUNS FAST.", "MIRA WALKS SLOW.", "STOP JUMPING.", "MY BODY IS STRONG.", "HELLO MIRA, DO YOU LIKE TO WALK?", "KAEL RUNS EVERY DAY.", "MIRA LIKES TO WALK.", "KAEL IS WALKING TO THE CITY.", "COOL, I LIKE WALKING, TOO.", "KAEL IS VERY STRONG.", "DO YOU HIKE OFTEN?", "I LIKE HIKING", "KAEL HIKES EVERY WEEK.", "I RUN EVERY SUNDAY.", "MIRA WALKS EVERY MONDAY AND HIKES EVERY FRIDAY.", "MY MOM LIKES TO WALK", "MY DAD HIKES EVERY WEDNESDAY.", "THE SUN IS BRIGHT", "GAIA SEES THE TREE", "THE RIVER IS THERE", "THE SKY IS BLUE.", "THERE ARE MANY FLOWERS.", "THAT BIRD IS BIG!", "THE FLOWERS ARE PRETTY.", "MY MOM LIKES FLOWERS.", "MY DAD LIKES BIRDS.", "THE FLOWERS ARE MANY DIFFERENT COLORS.", "THE CLERK BUILDS A TOOL", "I WORK AT THE OFFICE", "MY WORK IS IMPORTANT", "MY WAGE IS HIGH", "WHAT IS YOUR JOB?", "MY JOB IS BUILDING TOOLS.", "ARE YOU A DOCTOR?", "YES, I AM A DOCTOR.", "NO, I AM A TEACHER.", "I AM NOT A TEACHER, I AM A WAITER.", "BORIS IS MY TEACHER.", "HELLO, ARE YOU MY TEACHER?", "SHE IS MY NEW TEACHER.", "THE KING RULES THE LAND.", "THE LAW IS TRUTH.", "VOTE FOR PEACE.", "JUSTICE IS TRUTH.", "THE WAR IS ALMOST OVER.", "THE KING IS RIGHT.", "THERE IS A NEW LAW.", "THE KING HAS POWER.", "THE KING SAYS THE WAR WILL END SOON, I THINK HE IS RIGHT.", "THE KING AND QUEEN MAKE THE LAWS.", "CURIOSITY IS GOOD."], story: { title: "CHECKPOINT 1", chat: [{s:"Boris",l:"HELLO, MY NAME IS BORIS. I LIKE TO RUN EVERY SUNDAY."},{s:"Hilda",l:"COOL. I LIKE FLOWERS BECAUSE THEY ARE VERY COLORFUL."},{s:"Boris",l:"WHAT IS YOUR JOB? I AM A TEACHER."},{s:"Hilda",l:"I AM A WAITER."},{s:"Boris",l:"THE KING AND QUEEN MADE A NEW LAW, DID YOU SEE?"},{s:"Hilda",l:"YES. I THINK THEY ARE RIGHT."}] } },
             7: { title: "Weather", icon: "waves", vocab: [{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'COLD',d:'Cold'},{w:'SUNNY',d:'Sunny'},{w:'RAINY',d:'Rainy'},{w:'TODAY',d:'This day'},{w:'TOMORROW',d:'Next day'},{w:'YESTERDAY',d:'Previous Day'},{w:'TEMPURATURE',d:'Temperature'},{w:'FAHRENHEIT',d:'Temperature scale'},{w:'CELSIUS',d:'Temperature scale'}], sentences: ["IT IS RAINY TODAY.", "IT WILL BE RAINY ON MONDAY.", "IT IS SUNNY HERE.", "THERE IS A LOT OF SNOW.", "IT IS VERY HOT TODAY.", "IT WILL BE HOT TOMORROW.", "IT WAS HOT AND SUNNY YESTERDAY.", "WILL IT RAIN TOMORROW?", "MOM, IT IS TOO RAINY TODAY.","HOW HOT IS IT TODAY?", "HOW HOT WILL BE IT TOMORROW?", "WHAT'S THE TEMPERATURE?", "IT IS FORTY-FIVE DEGREES FAHRENHEIT.","IT IS FIFTEEN DEGREES CELSIUS."], story: { title: "Weather Talk", chat: [{s:"Oscar",l:"IT IS COLD TODAY."},{s:"Mary",l:"YES, IT IS ONLY FIVE DEGREES CELSIUS."},{s:"Oscar",l:"WILL IT RAIN TODAY?"},{s:"Mary",l:"NO, BUT IT WILL ON THURSDAY."},{s:"Oscar",l:"OKAY, GOODBYE."}] } },
-            8: { title: "Trade", icon: "coins", vocab: [{w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Eyean Currency'},{w:'COST',d:'Value'},{w:'PAY',d:'Give money'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'},{w:'TWO',d:'2'},{w:'THREE',d:'3'},{w:'FOUR',d:'4'},{w:'FIVE',d:'5'},{w:'SIX',d:'6'},{w:'SEVEN',d:'7'},{w:'EIGHT',d:'8'},{w:'NINE',d:'9'},{w:'ITEM',d:'Item'}], sentences: ["THIS FOOD COSTS TEN BOIR.", "HOW MUCH DOES THIS COST?", "BUY THAT IF YOU WANT.", "LOOK AT WHAT THE MERCHANT'S SELLING!", "THIS COSTS TWO BOIR.", "THIS COSTS THREE BOIR.", "THIS ITEM COSTS THREE BOIR.", "THIS ITEM COSTS FOUR BOIR.", "THIS COSTS FIVE BOIR.", "THIS COSTS SIX BOIR.", "THIS IS SEVEN BOIR.", "PAY FOR THE FOOD, PLEASE.","PAY THE MERCHANT NINE BOIR."], story: { title: "Market Talk", chat: [{s:"Merchant",l:"THE FOOD IS TEN BOIR."},{s:"Buyer",l:"I WILL ONLY PAY ONE BOIR."},{s:"Merchant",l:"NO, I'm SELLING IT FOR TEN."},{s:"Buyer",l:"OKAY, FINE. HERE IS TEN BOIR."},{s:"Merchant",l:"GOOD, I'LL TAKE THE PAY. THANK YOU."}] } },
+            8: { title: "Trade", icon: "coins", vocab: [{w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Eyean Currency'},{w:'COST',d:'Value'},{w:'PAY',d:'Give money'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'},{w:'TWO',d:'2'},{w:'THREE',d:'3'},{w:'FOUR',d:'4'},{w:'FIVE',d:'5'},{w:'SIX',d:'6'},{w:'SEVEN',d:'7'},{w:'EIGHT',d:'8'},{w:'NINE',d:'9'},{w:'ITEM',d:'Item'}], sentences: ["THIS FOOD COSTS TEN BOIR.", "HOW MUCH DOES THIS COST?", "BUY THAT IF YOU WANT.", "LOOK AT WHAT THE MERCHANT'S SELLING!", "THIS COSTS TWO BOIR.", "THIS COSTS THREE BOIR.", "THIS ITEM COSTS THREE BOIR.", "THIS ITEM COSTS FOUR BOIR.", "THIS COSTS FIVE BOIR.", "THIS COSTS SIX BOIR.", "THIS IS SEVEN BOIR.", "PAY FOR THE FOOD, PLEASE.","PAY THE MERCHANT NINE BOIR."], story: { title: "Market Talk", chat: [{s:"Merchant",l:"THE FOOD IS TEN BOIR."},{s:"Buyer",l:"I WILL ONLY PAY ONE BOIR."},{s:"Merchant",l:"NO, I'M SELLING IT FOR TEN."},{s:"Buyer",l:"OKAY, FINE. HERE IS TEN BOIR."},{s:"Merchant",l:"GOOD, I'LL TAKE THE PAY. THANK YOU."}] } },
             9: { title: "Navigation", icon: "compass", vocab: [{w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'},{w:'COMPASS',d:'Navigation device'},{w:'NORTH',d:'North'},{w:'SOUTH',d:'South'},{w:'EAST',d:'East'},{w:'WEST',d:'West'}], sentences: ["THE CAPTAIN HAS THE MAP.","DO YOU HAVE THE MAP?", "NO, I DO NOT HAVE THE MAP.", "THE CAPTAIM GUIDES THE SHIP NORTH.", "THE COMPASS POINTS NORTH.", "WE ARE GOING SOUTH.", "THE CITY IS SOUTHEAST OF THE SHIP.", "CAPTAIN, WHERE IS THE CITY?", "THE PORT IS TO THE WEST.", "WHICH WAY IS THE CITY?", "GO NORTH FOR THREE HOURS, THEN GO EAST.", "HOW DO I GET TO THE CITY?"], story: { title: "Captain Log", chat: [{s:"Captain",l:"WE ARE ALMOST TO THE CITY."},{s:"Sailor",l:"GOOD, DO YOU HAVE THE MAP?"},{s:"Captain",l:"YES, I HAVE THE MAP. TURN NORTH."},{s:"Sailor",l:"OKAY, WE ARE HEADING NORTH."},{s:"Captain",l:"THERE, I SEE LAND."}] } },
             10: { title: "World Nations", icon: "flag", vocab: [{w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'},{w:'FRANCE',d:'Land'},{w:'RUSSIA',d:'Land'},{w:'GERMANY',d:'Land'}], sentences: ["HAVE YOU EVER BEEN TO JAPAN?", "THE USA IS BIG.", "I WENT TO GERMANY LAST YEAR.", "THE BORDER BETWEEN FRANCE AND GERMANY IS BIG.", "BUY THE MAP FROM THE MAPMAKER.", "THE EXPLORER HAS BEEN TO RUSSIA.", "FRANCE IS FAR FROM CHINA.", "RUSSIA BORDERS CHINA.", "HAVE YOU EVER BEEN TO RUSSIA?"], story: { title: "World Map", chat: [{s:"Explorer",l:"DO YOU HAVE A MAP OF CHINA?"},{s:"Mapmaker",l:"YES, I DO. IT IS FIVE BOIR."},{s:"Explorer",l:"GOOD, HAVE YOU EVER BEEN TO CHINA BEFORE?"},{s:"Mapmaker",l:"NO, BUT I HAVE BEEN TO JAPAN."},{s:"Explorer",l:"COOL, THANK YOU FOR THE MAP."}] } },
             11: { title: "Music", icon: "music", vocab: [{w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'},{w:'PIANO',d:'Insturment'},{w:'GUITAR',d:'Instrument'},{w:'INSTRUMENT',d:'Musical object'}], sentences: ["I PLAY THE DRUMS.", "THE SOLOIST PLAYS THE VIOLIN.", "THE MUSIC IS GOOD.", "I LIKE THIS SONG.", "DO YOU PLAY THE PIANO?", "I PLAY DRUMS, AND I ALSO PLAY GUITAR.", "THAT SOLOIST CAN PLAY THE PIANO VERY WELL.", "HELLO, DO YOU SING OR PLAY AN INSTRUMENT?", "I SING AND PLAY THE PIANO.", "THE CONDUCTOR SAYS TO PLAY MORE SOFTLY."], story: { title: "Rehearsal", chat: [{s:"Soloist",l:"I LIKE PLAYING THE VIOLIN."},{s:"Conductor",l:"GOOD, YOU CAN BE THE SOLOIST."},{s:"Soloist",l:"THANK YOU!"},{s:"Conductor",l:"PLAY THE SONG NOW."},{s:"Soloist",l:"I LIKE THIS SONG."}] } },
@@ -137,30 +134,30 @@
             completed: JSON.parse(localStorage.getItem('eyean-lessons') || '{}'),
             script: parseInt(localStorage.getItem('eyean-script') || 1), 
             theme: localStorage.getItem('eyean-theme') || 'dark',
-            sound: localStorage.getItem('eyean-sound') === 'true', // DEFAULT IS FALSE
+            sound: localStorage.getItem('eyean-sound') === 'true', 
             session: null, finished: false, uFinished: false, transIn: ''
         };
 
-        // AUDIO ENGINE (Web Audio API for no-asset sounds)
+        // AUDIO ENGINE
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
         let noiseBuffer = null;
 
-        function initAudio() {
+        function initAudio() { 
             if (!audioCtx && state.sound) {
-                audioCtx = new AudioContext();
+                audioCtx = new AudioContext(); 
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
         }
 
-        // Noise buffer helper for texture sounds (Paper/Page)
         function createNoiseBuffer() {
             if (!audioCtx) return;
-            const bufferSize = audioCtx.sampleRate * 2; // 2 seconds buffer
+            const bufferSize = audioCtx.sampleRate * 2;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
             return buffer;
         }
 
@@ -169,10 +166,8 @@
                 if (!state.sound || !audioCtx) return;
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.value = freq;
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
+                osc.type = type; osc.frequency.value = freq;
+                osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(audioCtx.currentTime + startTime);
                 gain.gain.setValueAtTime(0.1, audioCtx.currentTime + startTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
@@ -181,83 +176,42 @@
             playNoise: (duration, startFreq, endFreq) => {
                 if (!state.sound || !audioCtx) return;
                 if (!noiseBuffer) noiseBuffer = createNoiseBuffer();
-                
-                const src = audioCtx.createBufferSource();
-                src.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
+                const src = audioCtx.createBufferSource(); src.buffer = noiseBuffer;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass';
                 filter.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
                 filter.frequency.exponentialRampToValueAtTime(endFreq, audioCtx.currentTime + duration);
-                
                 const gain = audioCtx.createGain();
                 gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-                
-                src.connect(filter);
-                filter.connect(gain);
-                gain.connect(audioCtx.destination);
-                src.start();
-                src.stop(audioCtx.currentTime + duration);
+                src.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+                src.start(); src.stop(audioCtx.currentTime + duration);
             },
-            correct: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                SoundFX.playTone(600, 'sine', 0.1);
-                SoundFX.playTone(900, 'sine', 0.2, 0.1);
-            },
-            wrong: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                SoundFX.playTone(200, 'sawtooth', 0.3);
-                SoundFX.playTone(150, 'sawtooth', 0.3, 0.1);
-            },
-            complete: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-                    SoundFX.playTone(freq, 'triangle', 0.3, i * 0.1);
-                });
-            },
-            // NEW NAV SOUNDS
-            paper: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                SoundFX.playNoise(0.1, 800, 100); // Crisp fold
-            },
-            ping: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                SoundFX.playTone(1200, 'sine', 0.3); // High ping
-            },
-            page: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                SoundFX.playNoise(0.2, 1200, 200); // Softer, longer slide
-            },
-            gear: () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                // Mechanical ratchet - 3 quick clicks
-                [0, 0.05, 0.1].forEach(t => SoundFX.playTone(150, 'square', 0.03, t));
+            play: (id) => {
+                initAudio();
+                if(id === 'correct') { SoundFX.playTone(600, 'sine', 0.1); SoundFX.playTone(900, 'sine', 0.2, 0.1); }
+                if(id === 'wrong') { SoundFX.playTone(200, 'sawtooth', 0.3); SoundFX.playTone(150, 'sawtooth', 0.3, 0.1); }
+                if(id === 'complete') { [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => SoundFX.playTone(freq, 'triangle', 0.3, i * 0.1)); }
+                if(id === 'paper') SoundFX.playNoise(0.1, 800, 100);
+                if(id === 'ping') SoundFX.playTone(1200, 'sine', 0.3);
+                if(id === 'page') SoundFX.playNoise(0.2, 1200, 200);
+                if(id === 'gear') [0, 0.05, 0.1].forEach(t => SoundFX.playTone(150, 'square', 0.03, t));
             }
         };
 
         function toggleSound() {
             state.sound = !state.sound;
             localStorage.setItem('eyean-sound', state.sound);
-            if (state.sound) {
-                initAudio();
-                if(audioCtx.state === 'suspended') audioCtx.resume();
-                SoundFX.correct(); // Test sound
-            }
+            if (state.sound) initAudio();
             render();
         }
 
-        // THEME ENGINE
         function setTheme(t) {
-            state.theme = t;
-            localStorage.setItem('eyean-theme', t);
+            state.theme = t; localStorage.setItem('eyean-theme', t);
             document.body.className = t === 'dark' ? '' : t === 'light' ? 'light-mode' : 'high-contrast';
             render();
         }
-
-        // Apply theme on load
         setTheme(state.theme);
 
-        // GLOBAL UTILITIES
         function toggleScript() {
             state.script = state.script === 1 ? 2 : 1;
             localStorage.setItem('eyean-script', state.script);
@@ -270,19 +224,15 @@
         function scriptify(w, s) { if (!w) return ""; const map = s === 1 ? WEST : EAST; return w.toUpperCase().split('').map(c => map[c] || c).join(''); }
         function isLessonLocked(uId, lIdx) { uId = Number(uId); lIdx = Number(lIdx); if (uId === 1 && lIdx === 0) return false; if (lIdx > 0) return !state.completed[`${uId}-${lIdx - 1}`]; return !state.completed[`${uId - 1}-9`]; }
 
-        // LESSON ENGINE
         function initLesson(uId, lIdx) {
-            // Init audio context on user interaction if sound is enabled
-            if(state.sound) initAudio();
-            
+            initAudio();
             if (isLessonLocked(uId, lIdx)) return;
             const u = ATLAS[uId];
             let exercises = [];
             const offset = (lIdx % 2) * 4;
             u.vocab.slice(offset, offset + 4).forEach(v => { exercises.push({ type:'vocab', word:v.w, d:v.d, p:scramble(v.w) }); });
             for (let i = 0; i < 3; i++) {
-                const sIndex = Math.floor(Math.random() * u.sentences.length);
-                const s = u.sentences[sIndex];
+                const s = u.sentences[Math.floor(Math.random() * u.sentences.length)];
                 const distractors = [];
                 const allVocab = u.vocab.map(v => v.w);
                 while(distractors.length < 5) {
@@ -302,40 +252,30 @@
         }
 
         function handleWordClick(word, bankIndex = -1) {
-            const s = state.session;
-            if (s.feedback) return; 
-            if (bankIndex !== -1) { s.selection.push(word); } else { const index = s.selection.indexOf(word); if (index > -1) s.selection.splice(index, 1); }
+            const s = state.session; if (s.feedback) return;
+            if (bankIndex !== -1) s.selection.push(word); else { const index = s.selection.indexOf(word); if (index > -1) s.selection.splice(index, 1); }
             render();
         }
 
         function handleAction() {
-            const s = state.session;
-            const cur = s.exercises[s.index];
+            const s = state.session; const cur = s.exercises[s.index];
             if (s.feedback) {
                 if (s.index < s.exercises.length - 1) { s.index++; s.feedback = null; s.selection = []; render(); } else { finishLesson(); }
                 return;
             }
-            if (cur.type === 'vocab' || cur.type === 'story_read') { 
-                s.feedback = 'correct'; 
-                SoundFX.correct(); // Sound Trigger
-            } else if (cur.type === 'sentence') {
-                const ans = s.selection.join(' ');
-                const isCorrect = ans.trim() === cur.target.trim();
-                s.feedback = isCorrect ? 'correct' : 'wrong';
-                if(isCorrect) SoundFX.correct(); else SoundFX.wrong(); // Sound Trigger
+            if (cur.type === 'vocab' || cur.type === 'story_read') { s.feedback = 'correct'; SoundFX.play('correct'); } else if (cur.type === 'sentence') {
+                const isCorrect = s.selection.join(' ').trim() === cur.target.trim();
+                s.feedback = isCorrect ? 'correct' : 'wrong'; SoundFX.play(isCorrect ? 'correct' : 'wrong');
             }
             render();
         }
 
         function finishLesson() {
-            SoundFX.complete(); // Sound Trigger
-            state.xp += 50; 
-            state.completed[`${state.session.uId}-${state.session.lIdx}`] = true;
-            localStorage.setItem('eyean-xp', state.xp);
-            localStorage.setItem('eyean-lessons', JSON.stringify(state.completed));
+            SoundFX.play('complete');
+            state.xp += 50; state.completed[`${state.session.uId}-${state.session.lIdx}`] = true;
+            localStorage.setItem('eyean-xp', state.xp); localStorage.setItem('eyean-lessons', JSON.stringify(state.completed));
             if (state.session.lIdx === 9) state.uFinished = true; else state.finished = true;
-            createConfetti(state.uFinished ? 80 : 30);
-            render();
+            createConfetti(state.uFinished ? 80 : 30); render();
         }
 
         function createConfetti(n) {
@@ -348,7 +288,6 @@
             }
         }
 
-        // RENDER ENGINE
         function render() {
             const container = document.getElementById('app-content');
             const nav = document.getElementById('footer-nav');
@@ -358,37 +297,13 @@
             
             ['path', 'translator', 'codex', 'settings'].forEach(id => {
                 const el = document.getElementById('nav-' + id);
-                if (el) {
-                    el.classList.toggle('text-sky-400', state.view === id);
-                    el.classList.toggle('text-slate-600', state.view !== id);
-                }
+                if (el) { el.classList.toggle('text-sky-400', state.view === id); el.classList.toggle('text-slate-600', state.view !== id); }
             });
 
-            // Tab Icons Logic
-            const pathActive = state.view === 'path';
-            const transActive = state.view === 'translator';
-            const codexActive = state.view === 'codex';
-            const settActive = state.view === 'settings';
-
-            document.getElementById('icon-path-container').innerHTML = pathActive 
-                ? '<i data-lucide="map" class="w-6 h-6 tab-pop"></i>' 
-                : '<i data-lucide="map-pinned" class="w-6 h-6 opacity-40"></i>';
-
-            document.getElementById('icon-translator-container').innerHTML = transActive 
-                ? '<i data-lucide="languages" class="w-6 h-6 tab-pop"></i>' 
-                : '<span class="text-xl font-black opacity-40 leading-none">A</span>';
-
-            // Dictionary Icon - HTML Re-renders, but CSS Animation handles the movement
-            document.getElementById('icon-codex-container').innerHTML = `
-                <div class="dictionary-stack ${codexActive ? 'lean-active' : 'opacity-40'}">
-                    <div class="book book-edge"></div>
-                    <div class="book book-tall"></div>
-                    <div class="book"></div>
-                </div>`;
-
-            document.getElementById('icon-settings-container').innerHTML = settActive 
-                ? '<i data-lucide="settings" class="w-6 h-6 fast-spin"></i>' 
-                : '<i data-lucide="settings" class="w-6 h-6 opacity-40"></i>';
+            document.getElementById('icon-path-container').innerHTML = state.view === 'path' ? '<i data-lucide="map" class="w-6 h-6 tab-pop"></i>' : '<i data-lucide="map-pinned" class="w-6 h-6 opacity-40"></i>';
+            document.getElementById('icon-translator-container').innerHTML = state.view === 'translator' ? '<i data-lucide="languages" class="w-6 h-6 tab-pop"></i>' : '<span class="text-xl font-black opacity-40 leading-none">A</span>';
+            document.getElementById('icon-codex-container').innerHTML = `<div class="dictionary-stack ${state.view === 'codex' ? 'lean-active' : 'opacity-40'}"><div class="book book-edge"></div><div class="book book-tall"></div><div class="book"></div></div>`;
+            document.getElementById('icon-settings-container').innerHTML = state.view === 'settings' ? '<i data-lucide="settings" class="w-6 h-6 fast-spin"></i>' : '<i data-lucide="settings" class="w-6 h-6 opacity-40"></i>';
 
             if (state.finished || state.uFinished) {
                 container.innerHTML = `<div class="animate-in flex flex-col items-center justify-center min-h-[70vh] text-center p-4">
@@ -401,17 +316,14 @@
                     const unit = ATLAS[uId];
                     html += `<section class="relative"><div class="flex items-center gap-4 mb-6"><div class="w-14 h-14 bg-slate-900 border border-white/10 rounded-2xl flex items-center justify-center text-sky-400 shadow-xl"><i data-lucide="${unit.icon}"></i></div><div><p class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Unit ${uId}</p><h2 class="text-2xl font-black uppercase italic">${unit.title}</h2></div></div><div class="grid grid-cols-2 gap-4">`;
                     for (let i = 0; i < 10; i++) {
-                        const locked = isLessonLocked(uId, i);
-                        const done = state.completed[`${uId}-${i}`];
-                        html += `<button onclick="initLesson(${uId}, ${i})" aria-label="Level ${i + 1} ${done ? 'Mastered' : locked ? 'Locked' : 'Start'}" class="relative p-6 rounded-[2rem] border-2 transition-all text-left overflow-hidden ${done ? 'bg-sky-500/10 border-sky-500/40 text-sky-400' : locked ? 'bg-slate-900/50 border-white/5 opacity-40' : 'bg-slate-900 border-white/10 hover:border-sky-500/50'}"><span class="block text-2xl font-black mb-1">${i + 1}</span><span class="text-[9px] font-black uppercase opacity-60">${done ? 'Mastered' : locked ? 'Encrypted' : 'Decrypt'}</span></button>`;
+                        const locked = isLessonLocked(uId, i); const done = state.completed[`${uId}-${i}`];
+                        html += `<button onclick="initLesson(${uId}, ${i})" aria-label="Level ${i + 1}" class="relative p-6 rounded-[2rem] border-2 transition-all text-left overflow-hidden ${done ? 'bg-sky-500/10 border-sky-500/40 text-sky-400' : locked ? 'bg-slate-900/50 border-white/5 opacity-40' : 'bg-slate-900 border-white/10 hover:border-sky-500/50'}"><span class="block text-2xl font-black mb-1">${i + 1}</span><span class="text-[9px] font-black uppercase opacity-60">${done ? 'Mastered' : locked ? 'Encrypted' : 'Decrypt'}</span></button>`;
                     }
                     html += `</div></section>`;
                 });
                 container.innerHTML = html + `</div>`;
             } else if (state.view === 'lesson') {
-                const s = state.session;
-                const cur = s.exercises[s.index];
-                const progress = ((s.index) / 10) * 100;
+                const s = state.session; const cur = s.exercises[s.index]; const progress = ((s.index) / 10) * 100;
                 let content = '';
                 if (cur.type === 'vocab') {
                     content = `<div class="animate-in flex flex-col items-center justify-center text-center py-12"><div class="text-[80px] leading-none mb-10 eyean-font text-sky-400 drop-shadow-glow">${scriptify(cur.word, state.script)}</div><div class="bg-slate-900/50 px-4 py-2 rounded-full text-xs font-black tracking-widest text-slate-600 mb-6 uppercase">Pronunciation: ${cur.p}</div><h2 class="text-5xl font-black uppercase italic mb-2">${cur.word}</h2><p class="text-slate-200 text-lg">"${cur.d}"</p></div>`;
@@ -430,61 +342,16 @@
             } else if (state.view === 'translator') {
                 container.innerHTML = `<div class="animate-in space-y-8 pt-4"><div class="flex flex-col gap-2"><h2 class="text-4xl font-black uppercase italic">Universal Translator</h2><p class="text-slate-600 text-sm font-medium">Instant localized Eyean-to-English conversion.</p></div><div class="space-y-2"><label for="trans-input" class="text-[10px] font-black uppercase text-slate-600 tracking-widest px-1">Source: English</label><textarea id="trans-input" oninput="state.transIn = this.value; renderTrans();" placeholder="ENTER TRANSMISSION..." class="w-full bg-slate-900 border border-white/10 rounded-[2rem] p-6 h-32 focus:border-sky-500/50 outline-none transition-all text-xl font-bold uppercase"></textarea></div><div class="space-y-4"><div class="space-y-2"><p class="text-[10px] font-black uppercase text-sky-500 tracking-widest px-1">Output: Eyean Script</p><div class="bg-sky-500/5 border-2 border-sky-500/20 rounded-[2.5rem] p-8 min-h-[8rem] flex items-center justify-center text-center"><div id="trans-text" class="eyean-font text-4xl break-words text-sky-400 leading-relaxed"></div></div></div><div class="space-y-2"><p class="text-[10px] font-black uppercase text-amber-500 tracking-widest px-1">Spoken: Pronunciation</p><div class="bg-amber-500/5 border-2 border-amber-500/20 rounded-[2rem] p-6 min-h-[4rem] flex items-center justify-center text-center"><div id="trans-spoken" class="text-xl font-black uppercase tracking-widest text-amber-500 break-words"></div></div></div></div></div>`;
             } else if (state.view === 'codex') {
-                let allVocab = [];
-                Object.keys(ATLAS).filter(uId => uId !== "6" && uId !== "12").forEach(uId => { allVocab = [...allVocab, ...ATLAS[uId].vocab]; });
+                let allVocab = []; Object.keys(ATLAS).filter(uId => uId !== "6" && uId !== "12").forEach(uId => { allVocab = [...allVocab, ...ATLAS[uId].vocab]; });
                 container.innerHTML = `<div class="animate-in space-y-8 pt-4"><div class="flex flex-col gap-2"><h2 class="text-4xl font-black uppercase italic">The Codex</h2><p class="text-slate-600 text-sm font-medium italic">Authorized entries only.</p></div><div class="grid grid-cols-1 gap-3">${allVocab.map(v => `<div class="flex items-center justify-between p-5 bg-slate-900 border border-white/5 rounded-2xl"><div><div class="eyean-font text-2xl text-sky-400 leading-none mb-1">${scriptify(v.w, state.script)}</div><div class="text-xs font-black uppercase tracking-widest text-slate-700">${scramble(v.w)}</div></div><div class="text-right"><div class="font-black uppercase text-white">${v.w}</div><div class="text-[10px] italic text-slate-600">${v.d}</div></div></div>`).join('')}</div></div>`;
             } else if (state.view === 'settings') {
-                container.innerHTML = `
-                <div class="animate-in space-y-8 pt-4">
-                    <div class="flex flex-col gap-2">
-                        <h2 class="text-4xl font-black uppercase italic">Settings</h2>
-                        <p class="text-slate-600 text-sm font-medium">Settings.</p>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="bg-slate-900/50 border border-white/5 p-6 rounded-3xl space-y-6">
-                            <h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">Visual Theme</h3>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button onclick="setTheme('dark')" class="flex flex-col items-center gap-2 p-3 rounded-2xl border ${state.theme === 'dark' ? 'border-sky-400 bg-sky-400/10' : 'border-white/10'}">
-                                    <i data-lucide="moon" class="w-5 h-5"></i><span class="text-[8px] font-black">DARK</span>
-                                </button>
-                                <button onclick="setTheme('light')" class="flex flex-col items-center gap-2 p-3 rounded-2xl border ${state.theme === 'light' ? 'border-sky-400 bg-sky-400/10' : 'border-white/10'}">
-                                    <i data-lucide="sun" class="w-5 h-5"></i><span class="text-[8px] font-black">LIGHT</span>
-                                </button>
-                                <button onclick="setTheme('high-contrast')" class="flex flex-col items-center gap-2 p-3 rounded-2xl border ${state.theme === 'high-contrast' ? 'border-sky-400 bg-sky-400/10' : 'border-white/10'}">
-                                    <i data-lucide="eye" class="w-5 h-5"></i><span class="text-[8px] font-black">CONTRAST</span>
-                                </button>
-                            </div>
-                        </div>
-
-                         <div class="bg-slate-900/50 border border-white/5 p-6 rounded-3xl space-y-6">
-                            <h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">Audio</h3>
-                            <button onclick="toggleSound()" class="w-full flex items-center justify-between p-4 rounded-2xl border ${state.sound ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-white/10 text-slate-500'}">
-                                <span class="flex items-center gap-3 font-bold uppercase text-xs">
-                                    <i data-lucide="${state.sound ? 'volume-2' : 'volume-x'}" class="w-5 h-5"></i> Sound Effects
-                                </span>
-                                <span class="text-[10px] font-black tracking-widest">${state.sound ? 'ON' : 'OFF'}</span>
-                            </button>
-                        </div>
-
-                        <div class="bg-slate-900/50 border border-white/5 p-6 rounded-3xl space-y-4">
-                            <h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">System Override</h3>
-                            <button onclick="localStorage.clear(); window.location.reload();" class="w-full bg-rose-500/10 border border-rose-500/30 text-rose-400 py-4 rounded-2xl font-black uppercase text-[10px] flex items-center justify-center gap-2">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i> Reset Progress - WARNING! THIS WILL INSTANTLY DELETE ALL OF YOUR DATA.
-                            </button>
-                            <button onclick="window.location.reload(true);" class="w-full bg-sky-500/10 border border-sky-500/30 text-sky-400 py-4 rounded-2xl font-black uppercase text-[10px] flex items-center justify-center gap-2">
-                                <i data-lucide="refresh-ccw" class="w-4 h-4"></i> App not updating? Hit this button to force update (no data will be lost).
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
+                container.innerHTML = `<div class="animate-in space-y-8 pt-4"><div class="flex flex-col gap-2"><h2 class="text-4xl font-black uppercase italic">Settings</h2><p class="text-slate-600 text-sm font-medium">Settings.</p></div><div class="space-y-4"><div class="bg-slate-900/50 border border-white/5 p-6 rounded-3xl space-y-6"><h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">Visual Theme</h3><div class="grid grid-cols-3 gap-3"><button onclick="setTheme('dark')" class="flex flex-col items-center gap-2 p-3 rounded-2xl border ${state.theme === 'dark' ? 'border-sky-400 bg-sky-400/10' : 'border-white/10'}"><i data-lucide="moon" class="w-5 h-5"></i><span class="text-[8px] font-black">DARK</span></button><button onclick="setTheme('light')" class="flex flex-col items-center gap-2 p-3 rounded-2xl border ${state.theme === 'light' ? 'border-sky-400 bg-sky-400/10' : 'border-white/10'}"><i data-lucide="sun" class="w-5 h-5"></i><span class="text-[8px] font-black">LIGHT</span></button><button onclick="setTheme('high-contrast')" class="flex flex-col items-center gap-2 p-3 rounded-2xl border ${state.theme === 'high-contrast' ? 'border-sky-400 bg-sky-400/10' : 'border-white/10'}"><i data-lucide="eye" class="w-5 h-5"></i><span class="text-[8px] font-black">CONTRAST</span></button></div></div><div class="bg-slate-900/50 border border-white/5 p-6 rounded-3xl space-y-6"><h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">Audio</h3><button onclick="toggleSound()" class="w-full flex items-center justify-between p-4 rounded-2xl border ${state.sound ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-white/10 text-slate-500'}"><span class="flex items-center gap-3 font-bold uppercase text-xs"><i data-lucide="${state.sound ? 'volume-2' : 'volume-x'}" class="w-5 h-5"></i> Sound Effects</span><span class="text-[10px] font-black tracking-widest">${state.sound ? 'ON' : 'OFF'}</span></button></div><div class="bg-slate-900/50 border border-white/5 p-6 rounded-3xl space-y-4"><h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">System Override</h3><button onclick="localStorage.clear(); window.location.reload();" class="w-full bg-rose-500/10 border border-rose-500/30 text-rose-400 py-4 rounded-2xl font-black uppercase text-[10px] flex items-center justify-center gap-2"><i data-lucide="trash-2" class="w-4 h-4"></i> Reset Progress</button><button onclick="window.location.reload(true);" class="w-full bg-sky-500/10 border border-sky-500/30 text-sky-400 py-4 rounded-2xl font-black uppercase text-[10px] flex items-center justify-center gap-2"><i data-lucide="refresh-ccw" class="w-4 h-4"></i> App Sync</button></div></div></div>`;
             }
             if(window.lucide) lucide.createIcons();
         }
 
         function renderTrans() {
-            const outText = document.getElementById('trans-text');
-            const outSpoken = document.getElementById('trans-spoken');
+            const outText = document.getElementById('trans-text'); const outSpoken = document.getElementById('trans-spoken');
             if(outText) outText.innerText = state.transIn.toUpperCase().split(' ').map(w => scriptify(w, state.script)).join(' ');
             if(outSpoken) outSpoken.innerText = state.transIn.toUpperCase().split(' ').map(w => scramble(w)).join(' ');
         }
