@@ -1,4 +1,5 @@
 Eyelearner (v1.7.3)
+
 Eyelearner is an interactive language-learning simulation designed to teach a custom linguistic system—the Eyean cipher—through situational logic, real-world narrative immersion, and sensory feedback.
 
 🌟 Project Overview
