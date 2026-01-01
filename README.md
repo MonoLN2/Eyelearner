@@ -1,8 +1,6 @@
-Eyelearner (v1.7.3)
-
 Eyelearner is an interactive language-learning simulation designed to teach a custom linguistic system—the Eyean cipher—through situational logic, real-world narrative immersion, and sensory feedback.
 
-🌟 Project Overview
+Project Overview
 This application features a 12-unit curriculum that guides users from basic identity greetings to total linguistic synchronization. Unlike standard translators, this lab uses grounded, real-life stories to help users understand context, pronunciation, and the visual structure of the Eyean West and East scripts.
 
 Key Features:
@@ -18,7 +16,7 @@ Theme Engine: Toggle between Dark, Light, and High-Contrast modes for better acc
 
 Narrative Stories: Intercepted transmissions featuring characters like Elias, Orion, and the High Judge.
 
-⚖️ Legal Notice & Copyright
+Legal Notice & Copyright
 Copyright © 2025-2026 MonoLN2. All Rights Reserved.
 
 This project contains proprietary intellectual property. By using or viewing this repository, you agree to the following:
@@ -29,7 +27,7 @@ Narrative Assets: All character names, situational dialogues, and unit storyline
 
 No Commercial Use: You may not sell, mirror, or redistribute this application or its data for commercial gain without express written permission.
 
-🛠️ Built With
+Built With
 HTML5 / CSS3 (Tailwind CSS): Responsive layout and utility-first styling.
 
 Vanilla JavaScript: Custom lesson engine and state management.
@@ -38,7 +36,7 @@ Web Audio API: Procedural audio synthesis for real-time sound effects.
 
 Lucide Icons: Specialized iconography for navigation and feedback.
 
-🔊 Credits & Technical Notes
+Credits & Technical Notes
 Audio Synthesis: Sound effects (Correct, Wrong, Complete, and UI feedback) are generated procedurally using the browser's native Web Audio API. No external audio assets are required, ensuring high performance and zero latency.
 
 PWA Support: Service worker integration for offline availability and persistent masteries.
