@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Master the Eyean linguistic system through interactive situational logic and narrative immersion.">
     <meta name="theme-color" content="#050608">
-    <title>Eyelearner (v1.7.6)</title>
+    <link rel="manifest" href="manifest.json">
+    <title>Eyelearner (v1.7.7)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --bg: #050608; --panel: #0f1115; --sky: #38bdf8; --amber: #f59e0b; --text: #f1f5f9; --sub: #cbd5e1;
         }
-
         body.light-mode {
             --bg: #f8fafc; --panel: #ffffff; --sky: #0284c7; --amber: #d97706; --text: #0f172a; --sub: #475569;
         }
         body.high-contrast {
             --bg: #000000; --panel: #000000; --sky: #ffffff; --amber: #ffff00; --text: #ffffff; --sub: #ffffff;
         }
-
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; transition: background 0.3s, color 0.3s; overscroll-behavior-y: contain; }
         .eyean-font { font-family: 'Space Mono', monospace; }
         .animate-in { animation: fadeIn 0.3s ease-out forwards; }
@@ -38,45 +35,34 @@
         .word-chip { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; background: var(--panel); border: 1px solid rgba(128,128,128,0.2); color: var(--text); }
         .word-chip:active { transform: translateY(2px); background: var(--sky); color: #000; }
         .locked { filter: grayscale(1) opacity(0.3); pointer-events: none; }
-        
-        .text-slate-600, .text-slate-500 { color: var(--sub) !important; }
+        .text-slate-600, .text-slate-500 { color: #e2e8f0 !important; font-weight: 500; }
 
-        /* Animation System */
+        /* restored animations */
         .fast-spin { animation: quickBurst 0.4s cubic-bezier(0.15, 0, 0.15, 1) forwards; }
-        @keyframes quickBurst {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
+        @keyframes quickBurst { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .dictionary-stack { display: flex; align-items: flex-end; gap: 2px; }
-        .book { width: 4px; height: 16px; background: currentColor; border-radius: 1px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .book { width: 4px; height: 16px; background: currentColor; border-radius: 1px; }
         .book-tall { height: 20px; }
-        
         @keyframes tiltBook {
             0% { transform: rotate(0deg) translateX(0); }
             100% { transform: rotate(-25deg) translateX(-4px); }
         }
-
         .lean-active .book-edge { 
             transform-origin: bottom;
             animation: tiltBook 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-
         .tab-pop { animation: iconPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes iconPop {
-            0% { transform: scale(0.6); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes iconPop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col" onclick="initAudio()">
 
     <header class="sticky top-0 z-[100] bg-opacity-95 backdrop-blur-lg border-b border-white/5 px-6 py-4 flex justify-between items-center" style="background: var(--bg);">
         <div class="flex items-center gap-3">
-            <div style="width:40px; height:40px;" class="bg-sky-500 rounded-xl flex items-center justify-center text-slate-950 font-black shadow-lg" aria-hidden="true">E</div>
+            <div style="width:40px; height:40px;" class="bg-sky-500 rounded-xl flex items-center justify-center text-slate-950 font-black shadow-lg">E</div>
             <div>
-                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.6)</h1>
-                <button onclick="toggleScript()" id="script-toggle" aria-label="Toggle script" class="text-[10px] text-sky-400 font-bold uppercase tracking-widest" style="color: var(--sky);">Script: West</button>
+                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.7)</h1>
+                <button onclick="toggleScript()" id="script-toggle" class="text-[10px] text-sky-400 font-bold uppercase tracking-widest" style="color: var(--sky);">Script: West</button>
             </div>
         </div>
         <div class="text-amber-500 font-black text-xs flex items-center gap-1" style="color: var(--amber);">
@@ -89,25 +75,24 @@
 
     <nav id="footer-nav" class="fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t border-white/5 px-6 py-4 flex justify-around items-center z-[90] pb-8" style="background: var(--bg);">
         <button onclick="SoundFX.play('paper'); setView('path')" aria-label="Course" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-path-container"></div>
-            <span class="text-[8px] font-black uppercase">Course</span>
+            <div id="icon-path-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Course</span>
         </button>
         <button onclick="SoundFX.play('ping'); setView('translator')" aria-label="Translator" id="nav-translator" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-translator-container"></div>
-            <span class="text-[8px] font-black uppercase">Translator</span>
+            <div id="icon-translator-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Translator</span>
         </button>
         <button onclick="SoundFX.play('page'); setView('codex')" aria-label="Dictionary" id="nav-codex" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-codex-container"></div>
-            <span class="text-[8px] font-black uppercase">Dictionary</span>
+            <div id="icon-codex-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Dictionary</span>
         </button>
         <button onclick="SoundFX.play('gear'); setView('settings')" aria-label="Settings" id="nav-settings" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-settings-container"></div>
-            <span class="text-[8px] font-black uppercase">Settings</span>
+            <div id="icon-settings-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Settings</span>
         </button>
     </nav>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <script>
-        // ATLAS DATA (REDACTED FOR BREVITY IN DISPLAY, BUT INCLUDED IN FULL SCRIPT)
+        // FULL DATA OBJECTS
         const WEST = { 'A': 'ア', 'B': 'ש', 'C': 'ジ', 'D': '⊣', 'E': 'え', 'F': 'ε', 'G': '↸', 'H': 'チ', 'I': 'ꮦ', 'J': 'Б', 'K': 'ᓭ', 'L': '⎓', 'M': 'ꮏ', 'N': 'ք', 'O': 'ꝋ', 'P': '∷', 'Q': 'פ', 'R': 'ꮭ', 'S': '⋊', 'T': 'ꭴ', 'U': 'µ', 'V': 'ᓵ', 'W': 'ꮑ', 'X': 'є', 'Y': 'よ', 'Z': 'չ' };
         const EAST = { 'A': 'а', 'B': 'в', 'C': 'Ж', 'D': 'г', 'E': 'э', 'F': 'з', 'G': 'д', 'H': 'х', 'I': 'и', 'J': 'Б', 'K': 'с', 'L': 'ф', 'M': 'т', 'N': 'п', 'O': 'ꝋ', 'P': 'р', 'Q': 'פ', 'R': 'ꮭ', 'S': 'к', 'T': 'ꭴ', 'U': 'у', 'V': 'ᓵ', 'W': 'н', 'X': 'є', 'Y': 'й', 'Z': 'չ' };
         const SPOKEN = { 'A': 'A', 'B': 'V', 'C': 'ZH', 'D': 'G', 'E': 'E', 'F': 'Z', 'G': 'D', 'H': 'H', 'I': 'I', 'J': 'B', 'K': 'S', 'L': 'F', 'M': 'T', 'N': 'P', 'O': 'O', 'P': 'R', 'Q': 'Q', 'R': 'L', 'S': 'K', 'T': 'M', 'U': 'U', 'V': 'C', 'W': 'N', 'X': 'X', 'Y': 'Y', 'Z': 'Z' };
@@ -122,7 +107,7 @@
             7: { title: "Weather", icon: "waves", vocab: [{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'COLD',d:'Cold'},{w:'SUNNY',d:'Sunny'},{w:'RAINY',d:'Rainy'},{w:'TODAY',d:'This day'},{w:'TOMORROW',d:'Next day'},{w:'YESTERDAY',d:'Previous Day'},{w:'TEMPURATURE',d:'Temperature'},{w:'FAHRENHEIT',d:'Temperature scale'},{w:'CELSIUS',d:'Temperature scale'}], sentences: ["IT IS RAINY TODAY.", "IT WILL BE RAINY ON MONDAY.", "IT IS SUNNY HERE.", "THERE IS A LOT OF SNOW.", "IT IS VERY HOT TODAY.", "IT WILL BE HOT TOMORROW.", "IT WAS HOT AND SUNNY YESTERDAY.", "WILL IT RAIN TOMORROW?", "MOM, IT IS TOO RAINY TODAY.","HOW HOT IS IT TODAY?", "HOW HOT WILL BE IT TOMORROW?", "WHAT'S THE TEMPERATURE?", "IT IS FORTY-FIVE DEGREES FAHRENHEIT.","IT IS FIFTEEN DEGREES CELSIUS."], story: { title: "Weather Talk", chat: [{s:"Oscar",l:"IT IS COLD TODAY."},{s:"Mary",l:"YES, IT IS ONLY FIVE DEGREES CELSIUS."},{s:"Oscar",l:"WILL IT RAIN TODAY?"},{s:"Mary",l:"NO, BUT IT WILL ON THURSDAY."},{s:"Oscar",l:"OKAY, GOODBYE."}] } },
             8: { title: "Trade", icon: "coins", vocab: [{w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Eyean Currency'},{w:'COST',d:'Value'},{w:'PAY',d:'Give money'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'},{w:'TWO',d:'2'},{w:'THREE',d:'3'},{w:'FOUR',d:'4'},{w:'FIVE',d:'5'},{w:'SIX',d:'6'},{w:'SEVEN',d:'7'},{w:'EIGHT',d:'8'},{w:'NINE',d:'9'},{w:'ITEM',d:'Item'}], sentences: ["THIS FOOD COSTS TEN BOIR.", "HOW MUCH DOES THIS COST?", "BUY THAT IF YOU WANT.", "LOOK AT WHAT THE MERCHANT'S SELLING!", "THIS COSTS TWO BOIR.", "THIS COSTS THREE BOIR.", "THIS ITEM COSTS THREE BOIR.", "THIS ITEM COSTS FOUR BOIR.", "THIS COSTS FIVE BOIR.", "THIS COSTS SIX BOIR.", "THIS IS SEVEN BOIR.", "PAY FOR THE FOOD, PLEASE.","PAY THE MERCHANT NINE BOIR."], story: { title: "Market Talk", chat: [{s:"Merchant",l:"THE FOOD IS TEN BOIR."},{s:"Buyer",l:"I WILL ONLY PAY ONE BOIR."},{s:"Merchant",l:"NO, I'M SELLING IT FOR TEN."},{s:"Buyer",l:"OKAY, FINE. HERE IS TEN BOIR."},{s:"Merchant",l:"GOOD, I'LL TAKE THE PAY. THANK YOU."}] } },
             9: { title: "Navigation", icon: "compass", vocab: [{w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'},{w:'COMPASS',d:'Navigation device'},{w:'NORTH',d:'North'},{w:'SOUTH',d:'South'},{w:'EAST',d:'East'},{w:'WEST',d:'West'}], sentences: ["THE CAPTAIN HAS THE MAP.","DO YOU HAVE THE MAP?", "NO, I DO NOT HAVE THE MAP.", "THE CAPTAIM GUIDES THE SHIP NORTH.", "THE COMPASS POINTS NORTH.", "WE ARE GOING SOUTH.", "THE CITY IS SOUTHEAST OF THE SHIP.", "CAPTAIN, WHERE IS THE CITY?", "THE PORT IS TO THE WEST.", "WHICH WAY IS THE CITY?", "GO NORTH FOR THREE HOURS, THEN GO EAST.", "HOW DO I GET TO THE CITY?"], story: { title: "Captain Log", chat: [{s:"Captain",l:"WE ARE ALMOST TO THE CITY."},{s:"Sailor",l:"GOOD, DO YOU HAVE THE MAP?"},{s:"Captain",l:"YES, I HAVE THE MAP. TURN NORTH."},{s:"Sailor",l:"OKAY, WE ARE HEADING NORTH."},{s:"Captain",l:"THERE, I SEE LAND."}] } },
-            10: { title: "World Nations", icon: "flag", vocab: [{w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'},{w:'FRANCE',d:'Land'},{w:'RUSSIA',d:'Land'},{w:'GERMANY',d:'Land'}], sentences: ["HAVE YOU EVER BEEN TO JAPAN?", "THE USA IS BIG.", "I went to GERMANY last year.", "THE BORDER BETWEEN FRANCE AND GERMANY IS BIG.", "BUY THE MAP FROM THE MAPMAKER.", "THE EXPLORER HAS BEEN TO RUSSIA.", "FRANCE IS FAR FROM CHINA.", "RUSSIA BORDERS CHINA.", "HAVE YOU EVER BEEN TO RUSSIA?"], story: { title: "World Map", chat: [{s:"Explorer",l:"DO YOU HAVE A MAP OF CHINA?"},{s:"Mapmaker",l:"YES, I DO. IT IS FIVE BOIR."},{s:"Explorer",l:"GOOD, HAVE YOU EVER BEEN TO CHINA BEFORE?"},{s:"Mapmaker",l:"NO, BUT I HAVE BEEN TO JAPAN."},{s:"Explorer",l:"COOL, THANK YOU FOR THE MAP."}] } },
+            10: { title: "World Nations", icon: "flag", vocab: [{w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'},{w:'FRANCE',d:'Land'},{w:'RUSSIA',d:'Land'},{w:'GERMANY',d:'Land'}], sentences: ["HAVE YOU EVER BEEN TO JAPAN?", "THE USA IS BIG.", "I WENT TO GERMANY LAST YEAR.", "THE BORDER BETWEEN FRANCE AND GERMANY IS BIG.", "BUY THE MAP FROM THE MAPMAKER.", "THE EXPLORER HAS BEEN TO RUSSIA.", "FRANCE IS FAR FROM CHINA.", "RUSSIA BORDERS CHINA.", "HAVE YOU EVER BEEN TO RUSSIA?"], story: { title: "World Map", chat: [{s:"Explorer",l:"DO YOU HAVE A MAP OF CHINA?"},{s:"Mapmaker",l:"YES, I DO. IT IS FIVE BOIR."},{s:"Explorer",l:"GOOD, HAVE YOU EVER BEEN TO CHINA BEFORE?"},{s:"Mapmaker",l:"NO, BUT I HAVE BEEN TO JAPAN."},{s:"Explorer",l:"COOL, THANK YOU FOR THE MAP."}] } },
             11: { title: "Music", icon: "music", vocab: [{w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'},{w:'PIANO',d:'Insturment'},{w:'GUITAR',d:'Instrument'},{w:'INSTRUMENT',d:'Musical object'}], sentences: ["I PLAY THE DRUMS.", "THE SOLOIST PLAYS THE VIOLIN.", "THE MUSIC IS GOOD.", "I LIKE THIS SONG.", "DO YOU PLAY THE PIANO?", "I PLAY DRUMS, AND I ALSO PLAY GUITAR.", "THAT SOLOIST CAN PLAY THE PIANO VERY WELL.", "HELLO, DO YOU SING OR PLAY AN INSTRUMENT?", "I SING AND PLAY THE PIANO.", "THE CONDUCTOR SAYS TO PLAY MORE SOFTLY."], story: { title: "Rehearsal", chat: [{s:"Soloist",l:"I LIKE PLAYING THE VIOLIN."},{s:"Conductor",l:"GOOD, YOU CAN BE THE SOLOIST."},{s:"Soloist",l:"THANK YOU!"},{s:"Conductor",l:"PLAY THE SONG NOW."},{s:"Soloist",l:"I LIKE THIS SONG."}] } },
             12: { title: "CHECKPOINT 2", icon: "zap", vocab: [{w:'RAIN',d:'Water'},{w:'SNOW',d:'Ice'},{w:'STORM',d:'Wind'},{w:'HOT',d:'Heat'},{w:'COLD',d:'Cold'},{w:'SUNNY',d:'Sunny'},{w:'RAINY',d:'Rainy'},{w:'TODAY',d:'This day'},{w:'TOMORROW',d:'Next day'},{w:'YESTERDAY',d:'Previous Day'},{w:'TEMPURATURE',d:'Temperature'},{w:'FAHRENHEIT',d:'Temperature scale'},{w:'CELSIUS',d:'Temperature scale'}, {w:'MERCHANT',d:'Seller'},{w:'BOIR',d:'Eyean Currency'},{w:'COST',d:'Value'},{w:'PAY',d:'Give money'},{w:'TEN',d:'10'},{w:'ONE',d:'1'},{w:'FOOD',d:'Fuel'},{w:'BUY',d:'Take'},{w:'SELL',d:'Give'},{w:'GOLD',d:'Gold'},{w:'TWO',d:'2'},{w:'THREE',d:'3'},{w:'FOUR',d:'4'},{w:'FIVE',d:'5'},{w:'SIX',d:'6'},{w:'SEVEN',d:'7'},{w:'EIGHT',d:'8'},{w:'NINE',d:'9'},{w:'ITEM',d:'Item'}, {w:'CAPTAIN',d:'Boss'},{w:'SAILOR',d:'Worker'},{w:'SHIP',d:'Vessel'},{w:'MAP',d:'Guide'},{w:'WAY',d:'Route'},{w:'CITY',d:'Hub'},{w:'SEA',d:'Water'},{w:'PORT',d:'Harbor'},{w:'GO',d:'Leave'},{w:'LAND',d:'Land'},{w:'COMPASS',d:'Navigation device'},{w:'NORTH',d:'North'},{w:'SOUTH',d:'South'},{w:'EAST',d:'East'},{w:'WEST',d:'West'}, {w:'USA',d:'Land'},{w:'CHINA',d:'Land'},{w:'JAPAN',d:'Land'},{w:'WORLD',d:'All'},{w:'BORDER',d:'Edge'},{w:'PEOPLE',d:'Humans'},{w:'MAPMAKER',d:'Artist'},{w:'EXPLORER',d:'Traveler'},{w:'FAR',d:'Far'},{w:'FRANCE',d:'Land'},{w:'RUSSIA',d:'Land'},{w:'GERMANY',d:'Land'}, {w:'SOLOIST',d:'One'},{w:'CONDUCTOR',d:'Lead'},{w:'DRUM',d:'Beat'},{w:'VIOLIN',d:'String'},{w:'SING',d:'Vocal'},{w:'SONG',d:'Music'},{w:'LOUD',d:'High'},{w:'SOFT',d:'Low'},{w:'PLAY',d:'Act'},{w:'HEAR',d:'Hear'},{w:'PIANO',d:'Insturment'},{w:'GUITAR',d:'Instrument'},{w:'INSTRUMENT',d:'Musical object'},{w:'EYEAN',d:'Language'},{w:'LANGUAGE',d:'Language'}], sentences: ["IT IS RAINY TODAY.", "IT WILL BE RAINY ON MONDAY.", "IT IS SUNNY HERE.", "THERE IS A LOT OF SNOW.", "IT IS VERY HOT TODAY.", "IT WILL BE HOT TOMORROW.", "IT WAS HOT AND SUNNY YESTERDAY.", "WILL IT RAIN TOMORROW?", "MOM, IT IS TOO RAINY TODAY.","HOW HOT IS IT TODAY?", "HOW HOT WILL BE IT TOMORROW?", "WHAT'S THE TEMPERATURE?", "IT IS FORTY-FIVE DEGREES FAHRENHEIT.","IT IS FIFTEEN DEGREES CELSIUS.", "THIS FOOD COSTS TEN BOIR.", "HOW MUCH DOES THIS COST?", "BUY THAT IF YOU WANT.", "LOOK AT WHAT THE MERCHANT'S SELLING!", "THIS COSTS TWO BOIR.", "THIS COSTS THREE BOIR.", "THIS ITEM COSTS THREE BOIR.", "THIS ITEM COSTS FOUR BOIR.", "THIS COSTS FIVE BOIR.", "THIS COSTS SIX BOIR.", "THIS IS SEVEN BOIR.", "PAY FOR THE FOOD, PLEASE.","PAY THE MERCHANT NINE BOIR.", "THE CAPTAIN HAS THE MAP.","DO YOU HAVE THE MAP?", "NO, I DO NOT HAVE THE MAP.", "THE CAPTAIM GUIDES THE SHIP NORTH.", "THE COMPASS POINTS NORTH.", "WE ARE GOING SOUTH.", "THE CITY IS SOUTHEAST OF THE SHIP.", "CAPTAIN, WHERE IS THE CITY?", "THE PORT IS TO THE WEST.", "WHICH WAY IS THE CITY?", "GO NORTH FOR THREE HOURS, THEN GO EAST.", "HOW DO I GET TO THE CITY?", "HAVE YOU EVER BEEN TO JAPAN?", "THE USA IS BIG.", "I WENT TO GERMANY LAST YEAR.", "THE BORDER BETWEEN FRANCE AND GERMANY IS BIG.", "BUY THE MAP FROM THE MAPMAKER.", "THE EXPLORER HAS BEEN TO RUSSIA.", "FRANCE IS FAR FROM CHINA.", "RUSSIA BORDERS CHINA.", "HAVE YOU EVER BEEN TO RUSSIA?", "I PLAY THE DRUMS.", "THE SOLOIST PLAYS THE VIOLIN.", "THE MUSIC IS GOOD.", "I LIKE THIS SONG.", "DO YOU PLAY THE PIANO?", "I PLAY DRUMS, AND I ALSO PLAY GUITAR.", "THAT SOLOIST CAN PLAY THE PIANO VERY WELL.", "HELLO, DO YOU SING OR PLAY AN INSTRUMENT?", "I SING AND PLAY THE PIANO.", "THE CONDUCTOR SAYS TO PLAY MORE SOFTLY."], story: { title: "REVIEW #2", chat: [{s:"Boris",l:"IT IS VERY HOT TODAY. I WANT TO BUY THIS FOOD."},{s:"Hilda",l:"YES, IT IS HOT. THIS FOOD COSTS THREE BOIR."},{s:"Boris",l:"THANK YOU, DO YOU KNOW HOW TO GET TO THE CITY?"},{s:"Hilda",l:"YES, GO NORTH. HAVE YOU EVER BEEN TO CHINA?"},{s:"Boris",l:"NO, BUT I PLAY THE PIANO. THANK YOU, GOODBYE."}] } }
         };
@@ -359,20 +344,16 @@
         window.onload = () => { render(); };
         if ('serviceWorker' in navigator) { 
             navigator.serviceWorker.register('./sw.js').then(reg => {
-                // FORCE UPDATE LOGIC
                 reg.onupdatefound = () => {
                     const installingWorker = reg.installing;
                     installingWorker.onstatechange = () => {
                         if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // Automatically skip waiting and refresh
                             installingWorker.postMessage({ action: 'skipWaiting' });
                         }
                     };
                 };
             });
         }
-        
-        // Listen for the controller change to reload the page automatically
         navigator.serviceWorker.addEventListener('controllerchange', () => {
             window.location.reload();
         });
