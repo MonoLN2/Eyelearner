@@ -6,24 +6,27 @@
     <meta name="description" content="Master the Eyean linguistic system through interactive situational logic and narrative immersion.">
     <meta name="theme-color" content="#050608">
     <link rel="manifest" href="manifest.json">
-    <title>Eyelearner (v1.7.7)</title>
+    <title>Eyelearner (v1.7.8)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
     
     <style>
         :root { 
             --bg: #050608; --panel: #0f1115; --sky: #38bdf8; --amber: #f59e0b; --text: #f1f5f9; --sub: #cbd5e1;
         }
+
         body.light-mode {
             --bg: #f8fafc; --panel: #ffffff; --sky: #0284c7; --amber: #d97706; --text: #0f172a; --sub: #475569;
         }
         body.high-contrast {
             --bg: #000000; --panel: #000000; --sky: #ffffff; --amber: #ffff00; --text: #ffffff; --sub: #ffffff;
         }
+
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; transition: background 0.3s, color 0.3s; overscroll-behavior-y: contain; }
         .eyean-font { font-family: 'Space Mono', monospace; }
         .animate-in { animation: fadeIn 0.3s ease-out forwards; }
@@ -32,27 +35,38 @@
         @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
         .drop-shadow-glow { filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4)); }
         .verify-bar { background: var(--bg); backdrop-filter: blur(24px); border-top: 1px solid rgba(128,128,128,0.2); }
-        .word-chip { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; background: var(--panel); border: 1px solid rgba(128,128,128,0.2); color: var(--text); }
+        .word-chip { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; background: var(--panel); border: 1px solid rgba(128,128,128,0.3); color: var(--text); }
         .word-chip:active { transform: translateY(2px); background: var(--sky); color: #000; }
         .locked { filter: grayscale(1) opacity(0.3); pointer-events: none; }
+        
         .text-slate-600, .text-slate-500 { color: #e2e8f0 !important; font-weight: 500; }
 
-        /* restored animations */
+        /* Animation System */
         .fast-spin { animation: quickBurst 0.4s cubic-bezier(0.15, 0, 0.15, 1) forwards; }
-        @keyframes quickBurst { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes quickBurst {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .dictionary-stack { display: flex; align-items: flex-end; gap: 2px; }
         .book { width: 4px; height: 16px; background: currentColor; border-radius: 1px; }
         .book-tall { height: 20px; }
+        
         @keyframes tiltBook {
             0% { transform: rotate(0deg) translateX(0); }
             100% { transform: rotate(-25deg) translateX(-4px); }
         }
+
         .lean-active .book-edge { 
             transform-origin: bottom;
             animation: tiltBook 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
+
         .tab-pop { animation: iconPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes iconPop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes iconPop {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col" onclick="initAudio()">
@@ -61,7 +75,7 @@
         <div class="flex items-center gap-3">
             <div style="width:40px; height:40px;" class="bg-sky-500 rounded-xl flex items-center justify-center text-slate-950 font-black shadow-lg">E</div>
             <div>
-                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.7)</h1>
+                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.8)</h1>
                 <button onclick="toggleScript()" id="script-toggle" class="text-[10px] text-sky-400 font-bold uppercase tracking-widest" style="color: var(--sky);">Script: West</button>
             </div>
         </div>
@@ -75,24 +89,24 @@
 
     <nav id="footer-nav" class="fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t border-white/5 px-6 py-4 flex justify-around items-center z-[90] pb-8" style="background: var(--bg);">
         <button onclick="SoundFX.play('paper'); setView('path')" aria-label="Course" id="nav-path" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-path-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Course</span>
+            <div id="icon-path-container" class="w-6 h-6 flex items-center justify-center"></div>
+            <span class="text-[8px] font-black uppercase">Course</span>
         </button>
         <button onclick="SoundFX.play('ping'); setView('translator')" aria-label="Translator" id="nav-translator" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-translator-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Translator</span>
+            <div id="icon-translator-container" class="w-6 h-6 flex items-center justify-center"></div>
+            <span class="text-[8px] font-black uppercase">Translator</span>
         </button>
         <button onclick="SoundFX.play('page'); setView('codex')" aria-label="Dictionary" id="nav-codex" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-codex-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Dictionary</span>
+            <div id="icon-codex-container" class="w-6 h-6 flex items-center justify-center"></div>
+            <span class="text-[8px] font-black uppercase">Dictionary</span>
         </button>
         <button onclick="SoundFX.play('gear'); setView('settings')" aria-label="Settings" id="nav-settings" class="flex flex-col items-center gap-1 transition-colors">
-            <div id="icon-settings-container" style="width:24px; height:24px;"></div><span class="text-[8px] font-black uppercase">Settings</span>
+            <div id="icon-settings-container" class="w-6 h-6 flex items-center justify-center"></div>
+            <span class="text-[8px] font-black uppercase">Settings</span>
         </button>
     </nav>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     <script>
-        // FULL DATA OBJECTS
         const WEST = { 'A': 'ア', 'B': 'ש', 'C': 'ジ', 'D': '⊣', 'E': 'え', 'F': 'ε', 'G': '↸', 'H': 'チ', 'I': 'ꮦ', 'J': 'Б', 'K': 'ᓭ', 'L': '⎓', 'M': 'ꮏ', 'N': 'ք', 'O': 'ꝋ', 'P': '∷', 'Q': 'פ', 'R': 'ꮭ', 'S': '⋊', 'T': 'ꭴ', 'U': 'µ', 'V': 'ᓵ', 'W': 'ꮑ', 'X': 'є', 'Y': 'よ', 'Z': 'չ' };
         const EAST = { 'A': 'а', 'B': 'в', 'C': 'Ж', 'D': 'г', 'E': 'э', 'F': 'з', 'G': 'д', 'H': 'х', 'I': 'и', 'J': 'Б', 'K': 'с', 'L': 'ф', 'M': 'т', 'N': 'п', 'O': 'ꝋ', 'P': 'р', 'Q': 'פ', 'R': 'ꮭ', 'S': 'к', 'T': 'ꭴ', 'U': 'у', 'V': 'ᓵ', 'W': 'н', 'X': 'є', 'Y': 'й', 'Z': 'չ' };
         const SPOKEN = { 'A': 'A', 'B': 'V', 'C': 'ZH', 'D': 'G', 'E': 'E', 'F': 'Z', 'G': 'D', 'H': 'H', 'I': 'I', 'J': 'B', 'K': 'S', 'L': 'F', 'M': 'T', 'N': 'P', 'O': 'O', 'P': 'R', 'Q': 'Q', 'R': 'L', 'S': 'K', 'T': 'M', 'U': 'U', 'V': 'C', 'W': 'N', 'X': 'X', 'Y': 'Y', 'Z': 'Z' };
@@ -123,18 +137,14 @@
             session: null, finished: false, uFinished: false, transIn: ''
         };
 
-        // AUDIO ENGINE
+        // AUDIO ENGINE (Web Audio API)
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
         let noiseBuffer = null;
 
         function initAudio() { 
-            if (!audioCtx && state.sound) {
-                audioCtx = new AudioContext(); 
-            }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (!audioCtx && state.sound) audioCtx = new AudioContext();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         }
 
         function createNoiseBuffer() {
@@ -207,11 +217,12 @@
         function setView(v) { state.view = v; state.finished = false; state.uFinished = false; render(); }
         function scramble(w) { if (!w) return ""; if (w.toUpperCase() === 'BOIR') return 'BOIR'; return w.toUpperCase().split('').map(c => SPOKEN[c] || c).join(''); }
         function scriptify(w, s) { if (!w) return ""; const map = s === 1 ? WEST : EAST; return w.toUpperCase().split('').map(c => map[c] || c).join(''); }
-        function isLessonLocked(uId, lIdx) { uId = Number(uId); lIdx = Number(lIdx); if (uId === 1 && lIdx === 0) return false; if (lIdx > 0) return !state.completed[`${uId}-${lIdx - 1}`]; return !state.completed[`${uId - 1}-9`]; }
+        
+        // UNLOCK ALL PROTOCOL
+        function isLessonLocked(uId, lIdx) { return false; }
 
         function initLesson(uId, lIdx) {
             initAudio();
-            if (isLessonLocked(uId, lIdx)) return;
             const u = ATLAS[uId];
             let exercises = [];
             const offset = (lIdx % 2) * 4;
@@ -245,7 +256,7 @@
         function handleAction() {
             const s = state.session; const cur = s.exercises[s.index];
             if (s.feedback) {
-                if (s.index < s.exercises.length - 1) { s.index++; s.feedback = null; s.selection = []; render(); } else { finishLesson(); }
+                if (s.index < s.exercises.length - 1) { s.index++; s.feedback = null; s.selection = []; render(); } else finishLesson();
                 return;
             }
             if (cur.type === 'vocab' || cur.type === 'story_read') { s.feedback = 'correct'; SoundFX.play('correct'); } else if (cur.type === 'sentence') {
@@ -293,7 +304,7 @@
             if (state.finished || state.uFinished) {
                 container.innerHTML = `<div class="animate-in flex flex-col items-center justify-center min-h-[70vh] text-center p-4">
                     ${state.uFinished ? `<div class="relative mb-8 badge-radiant p-8 rounded-full"><i data-lucide="medal" class="w-32 h-32 text-amber-400 drop-shadow-glow"></i></div><h2 class="text-5xl font-black italic uppercase text-white mb-2">Unit Mastered</h2><p class="text-amber-500 font-bold mb-8">+100 XP BONUS</p>` : `<i data-lucide="trophy" class="w-32 h-32 text-sky-400 mb-8 drop-shadow-glow bounce-slow"></i><h2 class="text-4xl font-black uppercase italic mb-2">Lesson Clear!</h2><p class="text-amber-500 font-bold mb-8">+50 XP</p>`}
-                    <button onclick="setView('path')" aria-label="Go to journey" class="w-full bg-white text-slate-950 py-6 rounded-3xl font-black uppercase text-xl shadow-2xl">Continue Voyage</button>
+                    <button onclick="setView('path')" class="w-full bg-white text-slate-950 py-6 rounded-3xl font-black uppercase text-xl shadow-2xl">Continue Voyage</button>
                 </div>`;
             } else if (state.view === 'path') {
                 let html = `<div class="space-y-12 pt-4">`;
@@ -323,7 +334,7 @@
                 } else if (cur.type === 'story_read') {
                     content = `<div class="animate-in space-y-6"><div class="text-center mb-8"><p class="text-xs font-black uppercase text-sky-500 tracking-tighter">Transmission Intercepted</p><h2 class="text-3xl font-black uppercase italic">${cur.story.title}</h2></div><div class="space-y-4">${cur.story.chat.map(m => `<div class="flex flex-col ${m.s === cur.story.chat[0].s ? 'items-start' : 'items-end'}"><span class="text-[8px] font-black uppercase text-slate-600 mb-1 px-2">${m.s}</span><div class="bg-slate-900 border border-white/10 p-4 rounded-2xl max-w-[80%]"><div class="eyean-font text-sky-400 mb-2">${scriptify(m.l, state.script)}</div></div></div>`).join('')}</div></div>`;
                 }
-                container.innerHTML = `<div class="flex flex-col min-h-[80vh]"><div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-10 shadow-inner"><div class="bg-sky-500 h-full transition-all duration-500" style="width: ${progress}%"></div></div><div class="flex-1">${content}</div><div class="fixed bottom-0 left-0 right-0 p-6 verify-bar flex flex-col gap-4">${s.feedback ? `<div class="animate-in p-4 rounded-2xl flex items-center gap-4 ${s.feedback === 'correct' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}"><i data-lucide="${s.feedback === 'correct' ? 'check-circle' : 'alert-circle'}"></i><span class="font-black uppercase italic">${s.feedback === 'correct' ? 'Sequence Valid' : 'Corrupted Data'}</span></div>` : ''}<button onclick="handleAction()" aria-label="${s.feedback ? 'Continue' : 'Verify answer'}" class="w-full py-6 rounded-3xl font-black uppercase text-xl shadow-2xl transition-all ${s.feedback === 'wrong' ? 'bg-rose-500 text-white' : 'bg-sky-500 text-slate-950'}">${s.feedback ? 'Continue' : 'Verify'}</button></div></div>`;
+                container.innerHTML = `<div class="flex flex-col min-h-[80vh]"><div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-10 shadow-inner"><div class="bg-sky-500 h-full transition-all duration-500" style="width: ${progress}%"></div></div><div class="flex-1">${content}</div><div class="fixed bottom-0 left-0 right-0 p-6 verify-bar flex flex-col gap-4">${s.feedback ? `<div class="animate-in p-4 rounded-2xl flex items-center gap-4 ${s.feedback === 'correct' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}"><i data-lucide="${s.feedback === 'correct' ? 'check-circle' : 'alert-circle'}"></i><span class="font-black uppercase italic">${s.feedback === 'correct' ? 'Sequence Valid' : 'Corrupted Data'}</span></div>` : ''}<button onclick="handleAction()" class="w-full py-6 rounded-3xl font-black uppercase text-xl shadow-2xl transition-all ${s.feedback === 'wrong' ? 'bg-rose-500 text-white' : 'bg-sky-500 text-slate-950'}">${s.feedback ? 'Continue' : 'Verify'}</button></div></div>`;
             } else if (state.view === 'translator') {
                 container.innerHTML = `<div class="animate-in space-y-8 pt-4"><div class="flex flex-col gap-2"><h2 class="text-4xl font-black uppercase italic">Universal Translator</h2><p class="text-slate-600 text-sm font-medium">Instant localized Eyean-to-English conversion.</p></div><div class="space-y-2"><label for="trans-input" class="text-[10px] font-black uppercase text-slate-600 tracking-widest px-1">Source: English</label><textarea id="trans-input" oninput="state.transIn = this.value; renderTrans();" placeholder="ENTER TRANSMISSION..." class="w-full bg-slate-900 border border-white/10 rounded-[2rem] p-6 h-32 focus:border-sky-500/50 outline-none transition-all text-xl font-bold uppercase"></textarea></div><div class="space-y-4"><div class="space-y-2"><p class="text-[10px] font-black uppercase text-sky-500 tracking-widest px-1">Output: Eyean Script</p><div class="bg-sky-500/5 border-2 border-sky-500/20 rounded-[2.5rem] p-8 min-h-[8rem] flex items-center justify-center text-center"><div id="trans-text" class="eyean-font text-4xl break-words text-sky-400 leading-relaxed"></div></div></div><div class="space-y-2"><p class="text-[10px] font-black uppercase text-amber-500 tracking-widest px-1">Spoken: Pronunciation</p><div class="bg-amber-500/5 border-2 border-amber-500/20 rounded-[2rem] p-6 min-h-[4rem] flex items-center justify-center text-center"><div id="trans-spoken" class="text-xl font-black uppercase tracking-widest text-amber-500 break-words"></div></div></div></div></div>`;
             } else if (state.view === 'codex') {
@@ -341,22 +352,19 @@
             if(outSpoken) outSpoken.innerText = state.transIn.toUpperCase().split(' ').map(w => scramble(w)).join(' ');
         }
 
-        window.onload = () => { render(); };
-        if ('serviceWorker' in navigator) { 
-            navigator.serviceWorker.register('./sw.js').then(reg => {
-                reg.onupdatefound = () => {
-                    const installingWorker = reg.installing;
-                    installingWorker.onstatechange = () => {
-                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            installingWorker.postMessage({ action: 'skipWaiting' });
-                        }
+        window.onload = () => { 
+            render(); 
+            if ('serviceWorker' in navigator) { 
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    reg.onupdatefound = () => {
+                        const worker = reg.installing;
+                        worker.onstatechange = () => {
+                            if (worker.state === 'installed' && navigator.serviceWorker.controller) window.location.reload();
+                        };
                     };
-                };
-            });
-        }
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-            window.location.reload();
-        });
+                });
+            }
+        };
     </script>
 </body>
 </html>
