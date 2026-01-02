@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Master the Eyean linguistic system through interactive situational logic and narrative immersion.">
     <meta name="theme-color" content="#050608">
-    <title>Eyelearner (v1.7.4)</title>
+    <title>Eyelearner (v1.7.5)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,6 @@
             --bg: #050608; --panel: #0f1115; --sky: #38bdf8; --amber: #f59e0b; --text: #f1f5f9; --sub: #cbd5e1;
         }
 
-        /* Theme Engine classes */
         body.light-mode {
             --bg: #f8fafc; --panel: #ffffff; --sky: #0284c7; --amber: #d97706; --text: #0f172a; --sub: #475569;
         }
@@ -50,7 +49,7 @@
         }
 
         .dictionary-stack { display: flex; align-items: flex-end; gap: 2px; }
-        .book { width: 4px; height: 16px; background: currentColor; border-radius: 1px; }
+        .book { width: 4px; height: 16px; background: currentColor; border-radius: 1px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .book-tall { height: 20px; }
         
         @keyframes tiltBook {
@@ -76,7 +75,7 @@
         <div class="flex items-center gap-3">
             <div style="width:40px; height:40px;" class="bg-sky-500 rounded-xl flex items-center justify-center text-slate-950 font-black shadow-lg" aria-hidden="true">E</div>
             <div>
-                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.4)</h1>
+                <h1 class="font-black tracking-tighter text-sm uppercase block">Eyelearner (v1.7.5)</h1>
                 <button onclick="toggleScript()" id="script-toggle" aria-label="Toggle visual script" class="text-[10px] text-sky-400 font-bold uppercase tracking-widest" style="color: var(--sky);">Script: West</button>
             </div>
         </div>
@@ -338,7 +337,7 @@
                 } else if (cur.type === 'story_read') {
                     content = `<div class="animate-in space-y-6"><div class="text-center mb-8"><p class="text-xs font-black uppercase text-sky-500 tracking-tighter">Transmission Intercepted</p><h2 class="text-3xl font-black uppercase italic">${cur.story.title}</h2></div><div class="space-y-4">${cur.story.chat.map(m => `<div class="flex flex-col ${m.s === cur.story.chat[0].s ? 'items-start' : 'items-end'}"><span class="text-[8px] font-black uppercase text-slate-600 mb-1 px-2">${m.s}</span><div class="bg-slate-900 border border-white/10 p-4 rounded-2xl max-w-[80%]"><div class="eyean-font text-sky-400 mb-2">${scriptify(m.l, state.script)}</div></div></div>`).join('')}</div></div>`;
                 }
-                container.innerHTML = `<div class="flex flex-col min-h-[80vh]"><div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-10 shadow-inner"><div class="bg-sky-500 h-full transition-all duration-500" style="width: ${progress}%"></div></div><div class="flex-1">${content}</div><div class="fixed bottom-0 left-0 right-0 p-6 verify-bar flex flex-col gap-4">${s.feedback ? `<div class="animate-in p-4 rounded-2xl flex items-center gap-4 ${s.feedback === 'correct' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}"><i data-lucide="${s.feedback === 'correct' ? 'check-circle' : 'alert-circle'}"></i><span class="font-black uppercase italic">${s.feedback === 'correct' ? 'Sequence Valid' : 'Corrupted Data'}</span></div>` : ''}<button onclick="handleAction()" aria-label="${s.feedback ? 'Continue' : 'Verify answer'}" class="w-full py-6 rounded-3xl font-black uppercase text-xl shadow-2xl transition-all ${s.feedback === 'wrong' ? 'bg-rose-500 text-white' : 'bg-sky-500 text-slate-950'}">${s.feedback ? 'Continue' : 'Verify'}</button></div></div>`;
+                container.innerHTML = `<div class="flex flex-col min-h-[80vh]"><div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-10 shadow-inner"><div class="bg-sky-500 h-full transition-all duration-500" style="width: ${progress}%"></div></div><div class="flex-1">${content}</div><div class="fixed bottom-0 left-0 right-0 p-6 verify-bar flex flex-col gap-4">${s.feedback ? `<div class="animate-in p-4 rounded-2xl flex items-center gap-4 ${s.feedback === 'correct' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}"><i data-lucide="${s.feedback === 'correct' ? 'check-circle' : 'alert-circle'}"></i><span class="font-black uppercase italic">${s.feedback === 'correct' ? 'Sequence Valid' : 'Corrupted Data'}</span></div>` : ''}<button onclick="handleAction()" class="w-full py-6 rounded-3xl font-black uppercase text-xl shadow-2xl transition-all ${s.feedback === 'wrong' ? 'bg-rose-500 text-white' : 'bg-sky-500 text-slate-950'}">${s.feedback ? 'Continue' : 'Verify'}</button></div></div>`;
             } else if (state.view === 'translator') {
                 container.innerHTML = `<div class="animate-in space-y-8 pt-4"><div class="flex flex-col gap-2"><h2 class="text-4xl font-black uppercase italic">Universal Translator</h2><p class="text-slate-600 text-sm font-medium">Instant localized Eyean-to-English conversion.</p></div><div class="space-y-2"><label for="trans-input" class="text-[10px] font-black uppercase text-slate-600 tracking-widest px-1">Source: English</label><textarea id="trans-input" oninput="state.transIn = this.value; renderTrans();" placeholder="ENTER TRANSMISSION..." class="w-full bg-slate-900 border border-white/10 rounded-[2rem] p-6 h-32 focus:border-sky-500/50 outline-none transition-all text-xl font-bold uppercase"></textarea></div><div class="space-y-4"><div class="space-y-2"><p class="text-[10px] font-black uppercase text-sky-500 tracking-widest px-1">Output: Eyean Script</p><div class="bg-sky-500/5 border-2 border-sky-500/20 rounded-[2.5rem] p-8 min-h-[8rem] flex items-center justify-center text-center"><div id="trans-text" class="eyean-font text-4xl break-words text-sky-400 leading-relaxed"></div></div></div><div class="space-y-2"><p class="text-[10px] font-black uppercase text-amber-500 tracking-widest px-1">Spoken: Pronunciation</p><div class="bg-amber-500/5 border-2 border-amber-500/20 rounded-[2rem] p-6 min-h-[4rem] flex items-center justify-center text-center"><div id="trans-spoken" class="text-xl font-black uppercase tracking-widest text-amber-500 break-words"></div></div></div></div></div>`;
             } else if (state.view === 'codex') {
