@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-cache-v1.5.0'; // Change this version number whenever you update!
+const CACHE_NAME = 'pwa-cache-v1.7.7'; // Change this version number whenever you update!
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
