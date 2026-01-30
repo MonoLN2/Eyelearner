@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-cache-v1.7.8'; // Change this version number whenever you update!
+const CACHE_NAME = 'pwa-cache-v1.7.8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -8,7 +8,6 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener('install', (event) => {
-  // This forces the waiting service worker to become the active service worker.
   self.skipWaiting(); 
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -18,10 +17,8 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  // This tells the service worker to take control of the page immediately.
   event.waitUntil(self.clients.claim()); 
   
-  // OPTIONAL: Delete old caches
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
