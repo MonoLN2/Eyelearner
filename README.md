@@ -8,7 +8,7 @@ Key Features:
 
 12 Unique Units: Each with its own set of characters and thematic vocabulary.
 
-Sequential Mastery: Lessons are locked until the previous challenge is mastered via XP accumulation.
+Sequential Mastery: Lessons are locked until the previous challenge is mastered via XP accumulation. (Not anymore)
 
 Multi-Sensory Feedback: Integrated sound effects for correct/wrong answers and UI interactions.
 
