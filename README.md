@@ -46,5 +46,10 @@ Audio Synthesis: Sound effects (Correct, Wrong, Complete, and UI feedback) are g
 PWA Support: Service worker integration for offline availability and persistent masteries.
 
 HOW TO USE:
+
+ONLINE:
 1. Go to monoln2.github.io/Eyelearner
 2. If you are on mobile, you can install it as an app from the three dot menu in the top right.
+
+OFFLINE:
+Go to the Releases tab, and download the latest release. Extract the archive, and run the file called 'index.html'. (Note: Some features may not function proporly  in the offline version.)
