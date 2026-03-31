@@ -44,3 +44,7 @@ Credits & Technical Notes
 Audio Synthesis: Sound effects (Correct, Wrong, Complete, and UI feedback) are generated procedurally using the browser's native Web Audio API. No external audio assets are required, ensuring high performance and zero latency.
 
 PWA Support: Service worker integration for offline availability and persistent masteries.
+
+HOW TO USE:
+1. Go to monoln2.github.io/Eyelearner
+2. If you are on mobile, you can install it as an app from the three dot menu in the top right.
